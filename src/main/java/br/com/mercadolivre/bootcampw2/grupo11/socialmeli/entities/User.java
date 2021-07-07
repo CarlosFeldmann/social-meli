@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Setter
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
     private String userName;

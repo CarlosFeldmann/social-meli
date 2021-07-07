@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Aplication storage
+storage/
+
+# Application Local Config
+application.yml
