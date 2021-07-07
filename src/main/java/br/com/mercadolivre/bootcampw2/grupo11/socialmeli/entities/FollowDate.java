@@ -18,12 +18,12 @@ public class FollowDate {
     @ManyToOne
     @MapsId("userFollowerId")
     @JoinColumn(name = "follower_user_id")
-    private User customer;
+    private Customer customer;
 
     @ManyToOne
     @MapsId("userFollowedId")
     @JoinColumn(name = "followed_user_id")
-    private User seller;
+    private Seller seller;
 
     private LocalDate date = LocalDate.now();
 
