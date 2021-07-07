@@ -26,4 +26,6 @@ public class Post {
     private Product detail;
     private Integer category;
     private BigDecimal price;
+    @ManyToOne
+    private Seller seller;
 }
