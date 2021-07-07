@@ -20,14 +20,11 @@ public class ProductsController {
     @Autowired
     private ProductsService productsService;
 
-    @Operation(description="Cria um novo post")
-    @ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Post criado com sucesso"),
-                            @ApiResponse(responseCode = "400", description = "Erro nos dados enviados"),
-                            @ApiResponse(responseCode = "500", description = "Erro durante o processamento no servidor")})
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(description="Create a new Post")
     @PostMapping("/newpost")
-    public ResponseEntity<HttpStatus> post(@RequestBody CreatePostForm Postform) {
+    public void post(@RequestBody CreatePostForm Postform) {
         productsService.createNewPost(Postform);
-        return (ResponseEntity<HttpStatus>) ResponseEntity.status(HttpStatus.CREATED);
     }
 
 }

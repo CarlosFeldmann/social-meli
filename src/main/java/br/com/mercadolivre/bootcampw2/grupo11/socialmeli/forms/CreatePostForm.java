@@ -16,7 +16,6 @@ import java.time.LocalDate;
 public class CreatePostForm {
 
     @NotNull
-    @NotEmpty
     @Min(0)
     private Integer userId;
 
@@ -28,7 +27,6 @@ public class CreatePostForm {
     private DetailsProductForm detail;
 
     @NotNull
-    @NotEmpty
     @Min(0)
         private Integer category;
 
