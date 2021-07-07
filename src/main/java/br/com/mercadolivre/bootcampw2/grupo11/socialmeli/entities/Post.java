@@ -19,7 +19,7 @@ import java.util.Date;
 public class Post {
     @Id
     @GeneratedValue
-    @Column(name = "id_post")
+    @Column(name = "post_id")
     private Integer id;
 
     private LocalDate date;
