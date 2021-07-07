@@ -27,4 +27,10 @@ public class ProductsController {
         productsService.createNewPost(Postform);
     }
 
+    @Operation(description="Get all posts from followed Sellers of a certain user")
+    @GetMapping("/followed/{userid}/list")
+    public void postsFromSellersByUser(@PathVariable int userid) {
+        productsService.getPostsFromFollowedSellers(userid);
+    }
+
 }
