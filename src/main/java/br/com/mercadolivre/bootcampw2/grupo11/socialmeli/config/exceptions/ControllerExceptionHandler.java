@@ -13,6 +13,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,9 +42,11 @@ public class ControllerExceptionHandler {
      * Handle resource not found exception, that's not required because ResourceNotFound extends ApiError
      * But we want to give more information to the api user
      *
+     *
      * @param exception - Exception to be handled
      * @return Human friendly response
      */
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ResourceNotFoundError> handleResourceNotFound(ResourceNotFoundException exception) {
         var errorDto = new ResourceNotFoundError(exception);
@@ -78,6 +81,7 @@ public class ControllerExceptionHandler {
      * @param exception - Exception to be handled
      * @return Human friendly response
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ValidationError> handleInvalidInput(ConstraintViolationException exception) {
 
@@ -99,6 +103,7 @@ public class ControllerExceptionHandler {
      * @param exception - Exception to be handled
      * @return Human friendly response
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiError> handleMissingParams(HttpMessageNotReadableException exception) {
         var dto = new ApiError("bad_request", "Unable to parse request body!", HttpStatus.BAD_REQUEST.value());
@@ -114,6 +119,7 @@ public class ControllerExceptionHandler {
      * @return Human friendly response
      */
     @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ApiError> noRouteFound(HttpServletRequest req, NoHandlerFoundException exception) {
         ApiError apiError = new ApiError(
                 "route_not_found",
