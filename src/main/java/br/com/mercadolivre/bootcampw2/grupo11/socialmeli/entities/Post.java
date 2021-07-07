@@ -17,6 +17,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "post")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EqualsAndHashCode
 public class Post {
     @Id
