@@ -7,12 +7,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ResourceNotFoundExceptionDTO extends ApiExceptionDTO {
+public class ResourceNotFoundError extends ApiError {
 
     private String resource;
     private Long resourceId;
 
-    public ResourceNotFoundExceptionDTO(ResourceNotFoundException exception) {
+    public ResourceNotFoundError(ResourceNotFoundException exception) {
         super(exception);
         this.resource = exception.getResource();
         this.resourceId = exception.getResourceId();

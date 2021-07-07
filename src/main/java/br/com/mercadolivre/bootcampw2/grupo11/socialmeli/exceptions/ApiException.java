@@ -1,10 +1,13 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions;
 
 
-import lombok.Data;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+/**
+ * All application exceptions must extends this class,
+ * so we can handle all in the same place
+ */
 @Getter
 public class ApiException extends RuntimeException {
 
