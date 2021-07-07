@@ -1,10 +1,8 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.config.exceptions.dtos;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
-@Setter
 @Getter
 public class RouteNotFoundError extends ApiError {
     private String route;

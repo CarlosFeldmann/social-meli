@@ -2,9 +2,9 @@ package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.config.exceptions.dtos
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @AllArgsConstructor
 public class FieldValidationError {
     private String field;

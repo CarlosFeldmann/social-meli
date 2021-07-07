@@ -3,12 +3,10 @@ package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.config.exceptions.dtos
 
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ApiException;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 public class ApiError {
     private String code;
     private String description;
