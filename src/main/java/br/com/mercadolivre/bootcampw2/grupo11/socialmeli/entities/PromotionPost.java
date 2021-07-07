@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Promotion extends Post{
+public class PromotionPost extends Post{
 
     private Boolean hasPromo;
 
