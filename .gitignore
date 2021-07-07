@@ -33,7 +33,7 @@ build/
 .vscode/
 
 # Aplication storage
-./storage/
+storage/
 
 # Application Local Config
-./application.yml
+application.yml
