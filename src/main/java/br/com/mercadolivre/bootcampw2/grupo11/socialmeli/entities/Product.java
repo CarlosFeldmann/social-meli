@@ -16,6 +16,7 @@ import javax.persistence.OneToOne;
 @Entity
 @EqualsAndHashCode
 public class Product {
+
     @Id
     @Column(name = "product_id")
     private Integer id;

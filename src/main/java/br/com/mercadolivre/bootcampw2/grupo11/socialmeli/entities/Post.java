@@ -8,13 +8,16 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
+/**
+ *  This entity associates posts to products in a OneToOne relationship
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "post")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EqualsAndHashCode
 public class Post {
     @Id

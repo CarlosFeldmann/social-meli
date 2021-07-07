@@ -7,6 +7,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 
+/**
+ *  This is a pivot table for followers
+ */
 @Entity
 @Getter
 @Setter
@@ -26,5 +29,4 @@ public class FollowDate {
     private Seller seller;
 
     private LocalDate date = LocalDate.now();
-
 }
