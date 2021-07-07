@@ -19,7 +19,7 @@ public class CreatePostForm {
     @NotNull
     @NotEmpty
     @Min(0)
-    private int userId;
+    private Integer userId;
 
     @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy")
@@ -31,7 +31,7 @@ public class CreatePostForm {
     @NotNull
     @NotEmpty
     @Min(0)
-    private int category;
+        private Integer category;
 
     @NotNull
     @DecimalMin(value = "0.01")

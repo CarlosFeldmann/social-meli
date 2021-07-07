@@ -18,7 +18,7 @@ public class CreatePromocionalPostForm {
     @NotNull
     @NotEmpty
     @Min(0)
-    private int userId;
+    private Integer userId;
 
     @NotNull
     @DateTimeFormat(pattern = "dd-MM-yyyy")
@@ -29,7 +29,7 @@ public class CreatePromocionalPostForm {
 
     @NotNull
     @NotEmpty
-    private int category;
+    private Integer category;
 
     @NotNull
     @DecimalMin(value = "0.01")
@@ -39,5 +39,5 @@ public class CreatePromocionalPostForm {
     private Boolean hasPromo;
 
     @NotNull
-    private double discount;
+    private Double discount;
 }
