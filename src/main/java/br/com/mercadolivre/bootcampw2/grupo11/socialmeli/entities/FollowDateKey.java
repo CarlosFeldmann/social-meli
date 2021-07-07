@@ -18,9 +18,9 @@ import java.time.LocalDate;
 public class FollowDateKey implements Serializable {
 
     @Column(name = "user_follower_id")
-    private Long userFollowerId;
+    private Integer userFollowerId;
 
     @Column (name = "user_followed_id")
-    private Long userFollowedId;
+    private Integer userFollowedId;
 
 }
