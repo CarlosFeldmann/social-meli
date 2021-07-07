@@ -7,6 +7,7 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.config.exceptions.dtos.
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.config.exceptions.dtos.ValidationError;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ApiException;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ResourceNotFoundException;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -42,12 +43,12 @@ public class ControllerExceptionHandler {
      * Handle resource not found exception, that's not required because ResourceNotFound extends ApiError
      * But we want to give more information to the api user
      *
-     *
      * @param exception - Exception to be handled
      * @return Human friendly response
      */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
+    @ApiResponse(responseCode = "404", description = "Unable to find resource in server")
     public ResponseEntity<ResourceNotFoundError> handleResourceNotFound(ResourceNotFoundException exception) {
         var errorDto = new ResourceNotFoundError(exception);
         return ResponseEntity
@@ -61,6 +62,8 @@ public class ControllerExceptionHandler {
      * @param exception - Exception to be handled
      * @return Human friendly response
      */
+    @ApiResponse(responseCode = "400", description = "Invalid input data.")
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationError> handleInvalidInput(MethodArgumentNotValidException exception) {
         var fieldErrors = exception.getFieldErrors().stream()
@@ -81,6 +84,7 @@ public class ControllerExceptionHandler {
      * @param exception - Exception to be handled
      * @return Human friendly response
      */
+    @ApiResponse(responseCode = "400", description = "Invalid input data.")
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ValidationError> handleInvalidInput(ConstraintViolationException exception) {
