@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-    @Override
-    List<User> findAllById(Iterable<Integer> iterable);
+    
 }

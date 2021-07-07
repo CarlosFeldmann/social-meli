@@ -9,9 +9,6 @@ import java.util.List;
 
 @Repository
 public interface SellerRepository extends JpaRepository<Seller, Integer> {
-    @Override
-    List<Seller> findAllById(Iterable<Integer> iterable);
-
     Integer getFollowerCountBySellerId(Integer idSeller);
 
     void unfollowSeller(Integer idUser, Integer idSeller);
