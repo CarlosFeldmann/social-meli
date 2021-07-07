@@ -1,5 +1,6 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,18 +15,23 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "post")
+@EqualsAndHashCode
 public class Post {
-    private Long userId;
     @Id
     @GeneratedValue
     @Column(name = "id_post")
-    private Long idPost;
+    private Integer id;
+
     private LocalDate date;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     private Product detail;
+
     private Integer category;
+
     private BigDecimal price;
+
     @ManyToOne
     private Seller seller;
 }
