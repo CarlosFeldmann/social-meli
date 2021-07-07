@@ -15,7 +15,8 @@ import java.util.Set;
 @NoArgsConstructor
 public class Seller extends User{
     @OneToMany(mappedBy = "seller")
-    Set<FollowDate> followers;
+    private Set<FollowDate> followers;
+
     @OneToMany(mappedBy = "seller")
-    List<Post> posts;
+    private Set<Post> posts;
 }
