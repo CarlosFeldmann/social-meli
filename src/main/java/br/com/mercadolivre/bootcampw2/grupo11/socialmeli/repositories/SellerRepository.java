@@ -9,9 +9,9 @@ import java.util.List;
 
 @Repository
 public interface SellerRepository extends JpaRepository<Seller, Integer> {
-    Integer getFollowerCountBySellerId(Integer idSeller);
+    /*Integer getFollowerCountBySellerId(Integer idSeller);
 
     void unfollowSeller(Integer idUser, Integer idSeller);
 
-    List<Post> getPromoProductsBySellerId(Integer idSeller);
+    List<Post> getPromoProductsBySellerId(Integer idSeller);*/
 }
