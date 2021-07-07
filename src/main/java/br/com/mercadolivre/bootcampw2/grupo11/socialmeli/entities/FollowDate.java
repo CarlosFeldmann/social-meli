@@ -29,4 +29,9 @@ public class FollowDate {
     private Seller seller;
 
     private LocalDate date = LocalDate.now();
+
+    public FollowDate(Customer customer, Seller seller) {
+        this.customer = customer;
+        this.seller = seller;
+    }
 }

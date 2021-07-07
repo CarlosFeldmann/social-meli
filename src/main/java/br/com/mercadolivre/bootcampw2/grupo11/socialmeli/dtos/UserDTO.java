@@ -13,25 +13,10 @@ import org.springframework.http.HttpStatus;
 public class UserDTO {
     private int userId;
     private String userName;
-    private UserType type;
+
 
     public static UserDTO fromEntity(User user) {
-        UserType type;
-        if (user instanceof Customer) {
-            type = UserType.CUSTOMER;
-        } else if (user instanceof Seller) {
-            type = UserType.SELLER;
-        } else {
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "unable_to_convert_user", "Unable to convert user to dto!");
-        }
-
-        return new UserDTO(user.getUserId(), user.getUserName(), type);
-    }
-
-
-    public enum UserType {
-        SELLER,
-        CUSTOMER
+        return new UserDTO(user.getUserId(), user.getUserName());
     }
 
 }

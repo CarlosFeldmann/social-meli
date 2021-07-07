@@ -1,7 +1,10 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.GenericMessageDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserFollowingListDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Customer;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.FollowDate;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Seller;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ResourceNotFoundException;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.UserForm;
@@ -10,6 +13,9 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.SellerRepo
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UsersService {
@@ -45,5 +51,24 @@ public class UsersService {
         return UserDTO.fromEntity(seller);
     }
 
+    public UserFollowingListDTO getFollowingList(Integer userId){
+        var customer =  customerRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", userId.longValue()));
+        var followList = customer.getFollowed().stream()
+                .map(FollowDate::getSeller)
+                .map(UserDTO::fromEntity)
+                .collect(Collectors.toList());
+
+        return new UserFollowingListDTO(userId,customer.getUserName(),followList);
+    }
+
+    public void userFollowSeller(Integer userId, Integer userIdToFollow){
+        var customer =  customerRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", userId.longValue()));
+        var sellerToFollow = sellerRepository.findById(userIdToFollow)
+                .orElseThrow(() -> new ResourceNotFoundException("Seller", userIdToFollow.longValue()));
+        customer.getFollowed().add(new FollowDate(customer,sellerToFollow));
+        customerRepository.save(customer);
+    }
 
 }
