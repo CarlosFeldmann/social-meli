@@ -9,6 +9,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+/**
+ *  This entity associates posts to products in a OneToOne relationship
+ */
 @Getter
 @Setter
 @NoArgsConstructor

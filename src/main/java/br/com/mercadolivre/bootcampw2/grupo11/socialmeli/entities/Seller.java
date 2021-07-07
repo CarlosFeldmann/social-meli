@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.Set;
 
+/**
+ *  This entity inherits from user and encapsulates the logic of seller being followed by users
+ */
 @Entity
 @Getter
 @Setter
