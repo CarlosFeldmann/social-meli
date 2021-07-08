@@ -1,10 +1,6 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.controllers;
 
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.FollowerCountDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.GenericMessageDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.SellerFollowerListDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserFollowingListDTO;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.*;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.UserForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services.UsersService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,10 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
+
 @Tag(name = "User Controller", description = "Routes related to users, from creation to following")
-@Validated
 @RestController
 @RequestMapping("/users")
+@Validated
 public class UsersController {
 
     private UsersService usersService;
@@ -73,6 +70,15 @@ public class UsersController {
         usersService.follow(userId, userIdToFollow);
         return new GenericMessageDTO("Seller followed successfully!");
     }
+
+    @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(description = "Unfollows customer to seller, userId refers to customer and userIdToUnfollow refers to seller")
+    public GenericMessageDTO unfollow(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToUnfollow) {
+        usersService.unfollow(userId, userIdToUnfollow);
+        return new GenericMessageDTO("Seller unfollowed successfully!");
+    }
+
 
     @GetMapping("/{userId}/followers/list")
     @ResponseStatus(HttpStatus.OK)

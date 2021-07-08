@@ -3,7 +3,10 @@ package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.DetailsProductDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.PostDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.PostsBySellerDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.*;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.FollowDate;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Post;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Product;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Seller;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ResourceNotFoundException;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.CreatePostForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.DateOrderEnum;
@@ -14,7 +17,6 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.SellerRepo
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;

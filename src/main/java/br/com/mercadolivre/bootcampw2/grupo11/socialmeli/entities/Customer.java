@@ -1,5 +1,6 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ResourceNotFoundException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +17,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class Customer extends User{
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<FollowDate> followed;
 
     /**
@@ -27,6 +28,18 @@ public class Customer extends User{
         FollowDateKey tmpFollowDateKey = new FollowDateKey(this.getUserId(),seller.getUserId());
         FollowDate tmpFollowDate = new FollowDate(this, seller);
         followed.add(tmpFollowDate);
+    }
+
+    /**
+     *
+     * @param seller - seller who will be unfollowed
+     */
+    public void removeFollow(Seller seller){
+        FollowDate followMatch = followed.stream()
+                .filter(a -> a.getSeller().equals(seller))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("FollowDate", seller.getUserId()));
+        followed.remove(followMatch);
     }
 
     public boolean isFollowing(Seller seller){

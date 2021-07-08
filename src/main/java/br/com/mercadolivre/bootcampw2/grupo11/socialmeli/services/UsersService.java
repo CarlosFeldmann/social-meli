@@ -95,6 +95,25 @@ public class UsersService {
     }
 
     /**
+     * This method is used to trigger unfollowing sequence for a customer unfollowing a seller
+     * @param customerId - customer ID
+     * @param sellerId - seller ID
+     */
+    public void unfollow(Integer customerId, Integer sellerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId));
+        Seller seller = sellerRepository.findById(sellerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId));
+
+        if (!customer.isFollowing(seller))
+            throw new ApiException(HttpStatus.BAD_REQUEST, "customer_isnt_following_error", "User already unfollows seller");
+
+        customer.removeFollow(seller);
+
+        customerRepository.save(customer);
+    }
+
+    /**
      * This method is used to list all followers from a given seller
      * @param sellerId - seller ID
      * @return Object DTO to the end user
@@ -112,7 +131,7 @@ public class UsersService {
 
     /**
      * Get the follower count of a given seller
-     * @param sellerId - Id of the seller
+     * @param sellerId - ID of the seller
      * @return Human friendly response
      */
     public FollowerCountDTO getSellerFollowCount(Integer sellerId) {
