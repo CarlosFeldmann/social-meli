@@ -1,6 +1,7 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.controllers;
 
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.*;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.ListOrderEnum;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.UserForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services.UsersService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -83,7 +84,7 @@ public class UsersController {
     @GetMapping("/{userId}/followers/list")
     @ResponseStatus(HttpStatus.OK)
     @Operation(description = "List all customers that follow a given seller and a given order")
-    public SellerFollowerListDTO listSellerFollowers(@PathVariable @Min(0) Integer userId, @RequestParam(value = "order", defaultValue = "name_asc") String order) {
+    public SellerFollowerListDTO listSellerFollowers(@PathVariable @Min(0) Integer userId, @RequestParam(defaultValue = "name_asc") ListOrderEnum order) {
         return usersService.getFollowerList(userId, order);
     }
 

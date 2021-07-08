@@ -8,17 +8,12 @@ import java.util.Locale;
 
 @Data
 @AllArgsConstructor
-public class UserDTO implements Comparable<UserDTO>{
+public class UserDTO{
     private int userId;
     private String userName;
 
 
     public static UserDTO fromEntity(User user) {
         return new UserDTO(user.getUserId(), user.getUserName());
-    }
-
-    @Override
-    public int compareTo(UserDTO o) {
-        return this.userName.compareToIgnoreCase(o.getUserName());
     }
 }
