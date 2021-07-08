@@ -37,15 +37,8 @@ public class ProductsService {
     private Post createPostfromForm(CreatePostForm postForm){
         Post newPost = new Post();
         Product newProduct =  new Product();
-        var seller = getSellerById(postForm.getUserId());
-
-        if(seller.isPresent()) {
-            newPost.setSeller(seller.get());
-        }
-        else{
-            throw new ResourceNotFoundException("Seller Id", postForm.getUserId());
-        }
-
+        var seller = getSellerById(postForm.getUserId()).orElseThrow(() -> new ResourceNotFoundException("Seller Id", postForm.getUserId()));
+        newPost.setSeller(seller);
         newPost.setCategory(postForm.getCategory());
         newPost.setDate(postForm.getDate());
         newProduct.setBrand(postForm.getDetail().getBrand());
