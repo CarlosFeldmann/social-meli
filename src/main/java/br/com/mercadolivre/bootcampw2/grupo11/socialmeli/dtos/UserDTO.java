@@ -19,6 +19,6 @@ public class UserDTO implements Comparable<UserDTO>{
 
     @Override
     public int compareTo(UserDTO o) {
-        return this.userName.toLowerCase().compareTo(o.getUserName().toLowerCase());
+        return this.userName.compareToIgnoreCase(o.getUserName());
     }
 }
