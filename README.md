@@ -27,4 +27,5 @@ todo
 - [x] US 0012: Obter uma lista de todos os produtos promocionais de um vendedor específico
 
 ## 📃 Documentação
-Acesse uma cópia  do nosso Swagger [**aqui**](https://lmarizmeli.github.io/social-meli/index.html)
+> Acesse uma cópia  do nosso Swagger [**aqui**](https://lmarizmeli.github.io/social-meli/index.html)  
+> Acesse nosso Kanban [**aqui**](https://github.com/lmarizmeli/social-meli/projects/1)
