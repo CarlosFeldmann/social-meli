@@ -15,9 +15,9 @@ import javax.validation.constraints.Min;
 
 
 @Tag(name = "User Controller", description = "Routes related to users, from creation to following")
+@Validated
 @RestController
 @RequestMapping("/users")
-@Validated
 public class UsersController {
 
     private UsersService usersService;
@@ -82,8 +82,9 @@ public class UsersController {
 
     @GetMapping("/{userId}/followers/list")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(description = "List all customers that follow a given seller")
-    public SellerFollowerListDTO listSellerFollowers(@PathVariable @Min(0) Integer userId){
-        return usersService.getFollowerList(userId);
+    @Operation(description = "List all customers that follow a given seller and a given order")
+    public SellerFollowerListDTO listSellerFollowers(@PathVariable @Min(0) Integer userId, @RequestParam(value = "order", defaultValue = "name_asc") String order) {
+        return usersService.getFollowerList(userId, order);
     }
+
 }

@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,6 +68,7 @@ public class UsersService {
 
     /**
      * This method is used for getting a list of seller that a given customer follows.
+     *
      * @param customerId - customer ID
      * @return The response to the end user.
      */
@@ -81,8 +84,9 @@ public class UsersService {
 
     /**
      * This method is used to trigger following sequence for a customer following a seller
+     *
      * @param customerId - customer ID
-     * @param sellerId - seller ID
+     * @param sellerId   - seller ID
      */
     public void follow(Integer customerId, Integer sellerId) {
         Customer customer = findCustomerById(customerId);
@@ -114,17 +118,27 @@ public class UsersService {
     }
 
     /**
-     * This method is used to list all followers from a given seller
+     * This method is used to list all followers from a given seller with an optional given order
+     *
      * @param sellerId - seller ID
+     * @param order - order in which the follower list is ordered
      * @return Object DTO to the end user
      */
-    public SellerFollowerListDTO getFollowerList(Integer sellerId) {
+    public SellerFollowerListDTO getFollowerList(Integer sellerId, String order) {
         var seller = sellerRepository.findById(sellerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId));
         var followList = seller.getFollowers().stream()
                 .map(FollowDate::getCustomer)
                 .map(UserDTO::fromEntity)
                 .collect(Collectors.toList());
+
+        if (order.equals("name_asc")) {
+            Collections.sort(followList);
+        } else if (order.equals("name_desc")) {
+            Collections.sort(followList, Collections.reverseOrder());
+        } else {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "invalid_order_request", "The order requested does not exist.");
+        }
 
         return new SellerFollowerListDTO(sellerId, seller.getUserName(), followList);
     }

@@ -4,9 +4,11 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.Locale;
+
 @Data
 @AllArgsConstructor
-public class UserDTO {
+public class UserDTO implements Comparable<UserDTO>{
     private int userId;
     private String userName;
 
@@ -15,4 +17,8 @@ public class UserDTO {
         return new UserDTO(user.getUserId(), user.getUserName());
     }
 
+    @Override
+    public int compareTo(UserDTO o) {
+        return this.userName.toLowerCase().compareTo(o.getUserName().toLowerCase());
+    }
 }
