@@ -33,7 +33,7 @@ public class UsersService {
     public UserDTO getUserInfo(Integer userId) {
         return userRepository.findById(userId)
                 .map(UserDTO::fromEntity)
-                .orElseThrow(() -> new ResourceNotFoundException("User", userId.longValue()));
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
     }
 
 
@@ -62,13 +62,17 @@ public class UsersService {
         return new UserFollowingListDTO(userId,customer.getUserName(),followList);
     }
 
-    public void userFollowSeller(Integer userId, Integer userIdToFollow){
-        var customer =  customerRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer", userId.longValue()));
-        var sellerToFollow = sellerRepository.findById(userIdToFollow)
-                .orElseThrow(() -> new ResourceNotFoundException("Seller", userIdToFollow.longValue()));
-        customer.getFollowed().add(new FollowDate(customer,sellerToFollow));
-        customerRepository.save(customer);
+  
+    public void follow(Integer customerId, Integer sellerId) {
+        Customer tmpCustomer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId.longValue()));
+        Seller tmpSeller = sellerRepository.findById(sellerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId.longValue()));
+
+        tmpCustomer.addFollow(tmpSeller);
+
+        customerRepository.save(tmpCustomer);
     }
+
 
 }

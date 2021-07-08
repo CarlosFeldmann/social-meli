@@ -16,7 +16,6 @@ import java.time.LocalDate;
 public class CreatePromocionalPostForm {
 
     @NotNull
-    @NotEmpty
     @Min(0)
     private Integer userId;
 
@@ -28,7 +27,6 @@ public class CreatePromocionalPostForm {
     private DetailsProductForm detail;
 
     @NotNull
-    @NotEmpty
     private Integer category;
 
     @NotNull

@@ -6,8 +6,6 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserFollowingListD
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.UserForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services.UsersService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +18,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequestMapping("/users")
+@Validated
 public class UsersController {
 
     private UsersService usersService;
