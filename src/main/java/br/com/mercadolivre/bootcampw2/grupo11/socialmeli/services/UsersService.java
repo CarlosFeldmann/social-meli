@@ -27,7 +27,7 @@ public class UsersService {
     public UserDTO getUserInfo(Integer userId) {
         return userRepository.findById(userId)
                 .map(UserDTO::fromEntity)
-                .orElseThrow(() -> new ResourceNotFoundException("User", userId.longValue()));
+                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
     }
 
 
