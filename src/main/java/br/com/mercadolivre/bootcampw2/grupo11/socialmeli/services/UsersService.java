@@ -45,5 +45,16 @@ public class UsersService {
         return UserDTO.fromEntity(seller);
     }
 
+    public void follow(Integer customerId, Integer sellerId) {
+        Customer tmpCustomer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId.longValue()));
+        Seller tmpSeller = sellerRepository.findById(sellerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId.longValue()));
+
+        tmpCustomer.addFollow(tmpSeller);
+
+        customerRepository.save(tmpCustomer);
+    }
+
 
 }
