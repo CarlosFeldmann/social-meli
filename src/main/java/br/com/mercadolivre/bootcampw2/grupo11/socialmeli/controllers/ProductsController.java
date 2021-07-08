@@ -35,7 +35,7 @@ public class ProductsController {
     @Operation(description="Get all posts from followed Sellers of a certain user")
     @GetMapping("/followed/{userid}/list")
     @ResponseStatus(HttpStatus.OK)
-    public PostsBySellerDTO postsFromSellersByUser(@PathVariable int userid,
+    public PostsBySellerDTO postsFromSellersByUser(@PathVariable @Min(0) int userid,
                                                    @RequestParam(name = "order", defaultValue= "date_asc") DateOrderEnum order) {
         return productsService.getPostsFromFollowedSellers(userid, order);
     }
