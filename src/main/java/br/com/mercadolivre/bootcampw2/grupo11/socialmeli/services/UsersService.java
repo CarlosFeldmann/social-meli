@@ -47,11 +47,22 @@ public class UsersService {
 
     public void follow(Integer customerId, Integer sellerId) {
         Customer tmpCustomer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId.longValue()));
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId));
         Seller tmpSeller = sellerRepository.findById(sellerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId.longValue()));
+                .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId));
 
         tmpCustomer.addFollow(tmpSeller);
+
+        customerRepository.save(tmpCustomer);
+    }
+
+    public void unfollow(Integer customerId, Integer sellerId) {
+        Customer tmpCustomer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId));
+        Seller tmpSeller = sellerRepository.findById(sellerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId));
+
+        tmpCustomer.removeFollow(tmpSeller);
 
         customerRepository.save(tmpCustomer);
     }
