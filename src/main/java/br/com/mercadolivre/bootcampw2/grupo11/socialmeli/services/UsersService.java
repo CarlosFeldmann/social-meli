@@ -1,5 +1,6 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.SellerFollowerListDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserFollowingListDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Customer;
@@ -53,7 +54,7 @@ public class UsersService {
 
     /**
      * This method is used for getting a list of seller that a given customer follows.
-     * @param customerId - customer Id
+     * @param customerId - customer ID
      * @return The response to the end user.
      */
     public UserFollowingListDTO getFollowingList(Integer customerId) {
@@ -69,8 +70,8 @@ public class UsersService {
 
     /**
      * This method is used to trigger following sequence for a customer following a seller
-     * @param customerId - customer Id
-     * @param sellerId - seller Id
+     * @param customerId - customer ID
+     * @param sellerId - seller ID
      */
     public void follow(Integer customerId, Integer sellerId) {
         Customer customer = customerRepository.findById(customerId)
@@ -85,5 +86,20 @@ public class UsersService {
         customerRepository.save(customer);
     }
 
+    /**
+     * This method is used to list all followers from a given seller
+     * @param sellerId - seller ID
+     * @return Object DTO to the end user
+     */
+    public SellerFollowerListDTO getFollowerList(Integer sellerId) {
+        var seller = sellerRepository.findById(sellerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId));
+        var followList = seller.getFollowers().stream()
+                .map(FollowDate::getCustomer)
+                .map(UserDTO::fromEntity)
+                .collect(Collectors.toList());
+
+        return new SellerFollowerListDTO(sellerId, seller.getUserName(), followList);
+    }
 
 }
