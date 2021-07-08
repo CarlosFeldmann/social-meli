@@ -47,11 +47,16 @@ public class UsersController {
     }
 
     @GetMapping("/{userId}/followed/list")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(description = "Get customer following list")
     public UserFollowingListDTO getSellersFollowedByUser(@PathVariable @Min(0) Integer userId){
         return usersService.getFollowingList(userId);
     }
 
+
     @PostMapping("/{userId}/follow/{userIdToFollow}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(description = "Add seller to customer following list")
     public GenericMessageDTO followSeller(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToFollow){
         usersService.follow(userId,userIdToFollow);
         return new GenericMessageDTO("Seller followed succesfully!");
