@@ -1,0 +1,598 @@
+openapi: 3.0.1
+info:
+  title: Desafio bootcamp
+  version: v0
+servers:
+  - url: 'http://localhost:8080/v1'
+    description: Generated server url
+tags:
+  - name: Products/Posts Controller
+    description: Routes related to creation of posts and fetching
+  - name: User Controller
+    description: 'Routes related to users, from creation to following'
+paths:
+  '/users/{userId}/unfollow/{userIdToUnfollow}':
+    post:
+      tags:
+        - User Controller
+      description: 'Unfollows customer to seller, userId refers to customer and userIdToUnfollow refers to seller'
+      operationId: unfollow
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+        - name: userIdToUnfollow
+          in: path
+          required: true
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericMessageDTO'
+        '400':
+          description: Invalid input data.
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ValidationError'
+        '404':
+          description: Unable to find resource in server
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ResourceNotFoundError'
+  '/users/{userId}/follow/{userIdToFollow}':
+    post:
+      tags:
+        - User Controller
+      description: Add seller to customer following list
+      operationId: followSeller
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+        - name: userIdToFollow
+          in: path
+          required: true
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GenericMessageDTO'
+        '400':
+          description: Invalid input data.
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ValidationError'
+        '404':
+          description: Unable to find resource in server
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ResourceNotFoundError'
+  /users/seller:
+    post:
+      tags:
+        - User Controller
+      description: Create a new seller user
+      operationId: createSeller
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserForm'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '400':
+          description: Invalid input data.
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ValidationError'
+        '404':
+          description: Unable to find resource in server
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ResourceNotFoundError'
+  /users/customer:
+    post:
+      tags:
+        - User Controller
+      description: Create a new customer user
+      operationId: createCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserForm'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '400':
+          description: Invalid input data.
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ValidationError'
+        '404':
+          description: Unable to find resource in server
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ResourceNotFoundError'
+  /products/newpost:
+    post:
+      tags:
+        - Products/Posts Controller
+      description: Create a new Post
+      operationId: post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePostForm'
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Invalid input data.
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ValidationError'
+        '404':
+          description: Unable to find resource in server
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ResourceNotFoundError'
+  '/users/{userId}/followers/list':
+    get:
+      tags:
+        - User Controller
+      description: List all customers that follow a given seller
+      operationId: listSellerFollowers
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SellerFollowerListDTO'
+        '400':
+          description: Invalid input data.
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ValidationError'
+        '404':
+          description: Unable to find resource in server
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ResourceNotFoundError'
+  '/users/{userId}/followed/list':
+    get:
+      tags:
+        - User Controller
+      description: Get customer following list
+      operationId: getSellersFollowedByUser
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserFollowingListDTO'
+        '400':
+          description: Invalid input data.
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ValidationError'
+        '404':
+          description: Unable to find resource in server
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ResourceNotFoundError'
+  '/users/{id}':
+    get:
+      tags:
+        - User Controller
+      description: 'Fetch a user by id, works for customers and sellers'
+      operationId: getUserInfo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '400':
+          description: Invalid input data.
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ValidationError'
+        '404':
+          description: Unable to find resource in server
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ResourceNotFoundError'
+  '/users/users/{userId}/followers/count':
+    get:
+      tags:
+        - User Controller
+      description: Return the follower count of a seller.
+      operationId: followersCount
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/FollowerCountDTO'
+        '400':
+          description: Invalid input data.
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ValidationError'
+        '404':
+          description: Unable to find resource in server
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ResourceNotFoundError'
+  '/products/followed/{userid}/list':
+    get:
+      tags:
+        - Products/Posts Controller
+      description: Get all posts from followed Sellers of a certain user
+      operationId: postsFromSellersByUser
+      parameters:
+        - name: userid
+          in: path
+          required: true
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+        - name: order
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - date_asc
+              - date_desc
+            default: date_asc
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PostsBySellerDTO'
+        '400':
+          description: Invalid input data.
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ValidationError'
+        '404':
+          description: Unable to find resource in server
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ApiError'
+                  - $ref: '#/components/schemas/ResourceNotFoundError'
+components:
+  schemas:
+    ResourceNotFoundError:
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+        statusCode:
+          type: integer
+          format: int32
+        timestamp:
+          type: string
+          format: date-time
+        resource:
+          type: string
+        resourceId:
+          type: integer
+          format: int32
+    FieldValidationError:
+      type: object
+      properties:
+        field:
+          type: string
+        message:
+          type: string
+        invalidValue:
+          type: object
+    ValidationError:
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+        statusCode:
+          type: integer
+          format: int32
+        timestamp:
+          type: string
+          format: date-time
+        violations:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldValidationError'
+    ApiError:
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+        statusCode:
+          type: integer
+          format: int32
+        timestamp:
+          type: string
+          format: date-time
+    GenericMessageDTO:
+      type: object
+      properties:
+        message:
+          type: string
+    UserForm:
+      required:
+        - username
+      type: object
+      properties:
+        username:
+          type: string
+    UserDTO:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int32
+        userName:
+          type: string
+    CreatePostForm:
+      required:
+        - category
+        - date
+        - detail
+        - price
+        - userId
+      type: object
+      properties:
+        userId:
+          minimum: 0
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date
+        detail:
+          $ref: '#/components/schemas/DetailsProductForm'
+        category:
+          minimum: 0
+          type: integer
+          format: int32
+        price:
+          minimum: 0.01
+          exclusiveMinimum: false
+          type: number
+    DetailsProductForm:
+      required:
+        - brand
+        - color
+        - notes
+        - productName
+        - type
+      type: object
+      properties:
+        productName:
+          type: string
+        type:
+          type: string
+        brand:
+          type: string
+        color:
+          type: string
+        notes:
+          type: string
+    SellerFollowerListDTO:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int32
+        userName:
+          type: string
+        followers:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDTO'
+    UserFollowingListDTO:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int32
+        userName:
+          type: string
+        followed:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDTO'
+    FollowerCountDTO:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int32
+        userName:
+          type: string
+        followersCount:
+          type: integer
+          format: int64
+    DetailsProductDTO:
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int32
+        productName:
+          type: string
+        type:
+          type: string
+        brand:
+          type: string
+        color:
+          type: string
+        notes:
+          type: string
+    PostDTO:
+      type: object
+      properties:
+        idPost:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date
+        detail:
+          $ref: '#/components/schemas/DetailsProductDTO'
+        category:
+          type: integer
+          format: int32
+        price:
+          type: number
+          format: double
+    PostsBySellerDTO:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int32
+        posts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostDTO'
