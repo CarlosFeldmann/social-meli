@@ -4,14 +4,18 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.PostDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.PostsBySellerDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Post;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.CreatePostForm;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.DateOrderEnum;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services.ProductsService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/products")
 public class ProductsController {
@@ -29,8 +33,9 @@ public class ProductsController {
     @Operation(description="Get all posts from followed Sellers of a certain user")
     @GetMapping("/followed/{userid}/list")
     @ResponseStatus(HttpStatus.OK)
-    public PostsBySellerDTO postsFromSellersByUser(@PathVariable int userid) {
-        return productsService.getPostsFromFollowedSellers(userid);
+    public PostsBySellerDTO postsFromSellersByUser(@PathVariable @Min(0) int userid,
+                                                   @RequestParam(name = "order", defaultValue= "date_asc") DateOrderEnum order) {
+        return productsService.getPostsFromFollowedSellers(userid, order);
     }
 
 }
