@@ -7,10 +7,10 @@
 - [Luiz Mariz](https://github.com/lmarizmeli) 
 - [Victor Planas](https://github.com/Victor-Planas)
 
-###💻 Sobre o projeto
+## 💻 Sobre o projeto
 todo
 
-###⚙️ Requisitos entregues
+## ⚙️ Requisitos entregues
 
 - [x] US 0001: Ser capaz de realizar a ação de “Follow” (seguir) a um determinado vendedor
 - [x] US 0002: Obter o resultado do número de usuários que seguem um determinado vendedor
@@ -25,5 +25,5 @@ todo
 - [x] US 0011: Obtenha o quantidade de produtos promocionais de um vendedor específico
 - [x] US 0012: Obter uma lista de todos os produtos promocionais de um vendedor específico
 
-###📃 Documentação
+## 📃 Documentação
 Acesse uma cópia  do nosso Swagger [**aqui**](lmarizmeli.github.io/social-meli/)
