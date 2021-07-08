@@ -1,6 +1,7 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.controllers;
 
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.GenericMessageDTO;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.SellerFollowerListDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserFollowingListDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.UserForm;
@@ -60,5 +61,12 @@ public class UsersController {
     public GenericMessageDTO followSeller(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToFollow){
         usersService.follow(userId,userIdToFollow);
         return new GenericMessageDTO("Seller followed succesfully!");
+    }
+
+    @GetMapping("/{userId}/followers/list")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(description = "List all customers that follow given seller")
+    public SellerFollowerListDTO listSellerFollowers(@PathVariable @Min(0) Integer userId){
+        return usersService.getFollowerList(userId);
     }
 }
