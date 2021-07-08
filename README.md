@@ -1,5 +1,6 @@
 # 🚀 Meli IT Bootcamp🚀 
 [TOC]
+todo table of contents
 
 ## 👨‍💻  Desafio Spring (Grupo 11) - Participantes
 - [Carlos Feldmann](https://github.com/CarlosFeldmann) 
@@ -26,4 +27,4 @@ todo
 - [x] US 0012: Obter uma lista de todos os produtos promocionais de um vendedor específico
 
 ## 📃 Documentação
-Acesse uma cópia  do nosso Swagger [**aqui**](lmarizmeli.github.io/social-meli/)
+Acesse uma cópia  do nosso Swagger [**aqui**](https://lmarizmeli.github.io/social-meli/index.html)
