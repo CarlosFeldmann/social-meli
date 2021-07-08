@@ -9,6 +9,7 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Product;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Seller;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ResourceNotFoundException;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.CreatePostForm;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.DateOrderEnum;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.CustomerRepository;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.PostRepository;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.ProductRepository;
@@ -44,7 +45,7 @@ public class ProductsService {
         return sellerRepository.findById(id);
     }
 
-    public PostsBySellerDTO getPostsFromFollowedSellers(int idUser){
+    public PostsBySellerDTO getPostsFromFollowedSellers(int idUser, DateOrderEnum orderType){
         PostsBySellerDTO postsBySellerDTO = new PostsBySellerDTO();
 
         var followedUsers =new ArrayList<FollowDate>(getSellersFollowedByUser(idUser));
@@ -62,16 +63,23 @@ public class ProductsService {
             postsDTO.add(createPostDTOfromPost(posts.get(j)));
         }
 
-        postsBySellerDTO.setPosts(postsDTO.stream()
-                .sorted(Comparator.comparing(PostDTO::getDate))
-                .collect(Collectors.toList()));
+        var stream = postsDTO.stream();
+        if (orderType == DateOrderEnum.date_desc) {
+            stream = stream.sorted(Comparator.comparing(PostDTO::getDate).reversed());
+        } else {
+            stream = stream.sorted(Comparator.comparing(PostDTO::getDate));
+        }
 
+        postsBySellerDTO.setPosts(stream.collect(Collectors.toList()));
         postsBySellerDTO.setUserId(idUser);
 
         return postsBySellerDTO;
     }
     public Set<FollowDate> getSellersFollowedByUser(int idUser){
-        return customerRepository.getById(idUser).getFollowed();
+        var customer = customerRepository.findById(idUser).orElseThrow(()
+                ->
+                new ResourceNotFoundException("User Id", idUser ));
+        return customer.getFollowed();
     }
     private Post createPostfromForm(CreatePostForm postForm){
         Post newPost = new Post();

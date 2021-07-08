@@ -1,5 +1,6 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.SellerFollowerListDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserFollowingListDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Customer;
@@ -104,5 +105,20 @@ public class UsersService {
         customerRepository.save(customer);
     }
 
+    /**
+     * This method is used to list all followers from a given seller
+     * @param sellerId - seller ID
+     * @return Object DTO to the end user
+     */
+    public SellerFollowerListDTO getFollowerList(Integer sellerId) {
+        var seller = sellerRepository.findById(sellerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId));
+        var followList = seller.getFollowers().stream()
+                .map(FollowDate::getCustomer)
+                .map(UserDTO::fromEntity)
+                .collect(Collectors.toList());
+
+        return new SellerFollowerListDTO(sellerId, seller.getUserName(), followList);
+    }
 
 }
