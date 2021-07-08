@@ -28,4 +28,9 @@ public class Customer extends User{
         FollowDate tmpFollowDate = new FollowDate(this, seller);
         followed.add(tmpFollowDate);
     }
+
+    public boolean isFollowing(Seller seller){
+        return this.followed.stream()
+                .anyMatch(followDate -> followDate.getSeller().equals(seller));
+    }
 }
