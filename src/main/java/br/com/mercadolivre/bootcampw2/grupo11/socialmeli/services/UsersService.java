@@ -49,7 +49,7 @@ public class UsersService {
         Customer tmpCustomer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId.longValue()));
         Seller tmpSeller = sellerRepository.findById(sellerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Seller", customerId.longValue()));
+                .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId.longValue()));
 
         tmpCustomer.addFollow(tmpSeller);
 
