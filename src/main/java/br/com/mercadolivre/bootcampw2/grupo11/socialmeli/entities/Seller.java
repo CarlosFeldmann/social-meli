@@ -21,6 +21,6 @@ public class Seller extends User{
     @OneToMany(mappedBy = "seller")
     private Set<FollowDate> followers;
 
-    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Post> posts;
 }
