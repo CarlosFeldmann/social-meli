@@ -8,7 +8,6 @@ import lombok.Setter;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import java.util.Objects;
 import java.util.Set;
 /**
  *  This entity inherits from user and encapsulates the logic of users following sellers
@@ -26,6 +25,7 @@ public class Customer extends User{
      * @param seller - seller who will be followed
      */
     public void addFollow(Seller seller){
+        FollowDateKey tmpFollowDateKey = new FollowDateKey(this.getUserId(),seller.getUserId());
         FollowDate tmpFollowDate = new FollowDate(this, seller);
         followed.add(tmpFollowDate);
     }
@@ -40,5 +40,10 @@ public class Customer extends User{
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("Seller", seller.getUserId()));
         followed.remove(followMatch);
+    }
+
+    public boolean isFollowing(Seller seller){
+        return this.followed.stream()
+                .anyMatch(followDate -> followDate.getSeller().equals(seller));
     }
 }

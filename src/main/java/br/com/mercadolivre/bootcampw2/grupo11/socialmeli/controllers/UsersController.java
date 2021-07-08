@@ -1,6 +1,8 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.controllers;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.GenericMessageDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserFollowingListDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.UserForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services.UsersService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,18 +47,28 @@ public class UsersController {
         return usersService.getUserInfo(id);
     }
 
+    @GetMapping("/{userId}/followed/list")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(description = "Get customer following list")
+    public UserFollowingListDTO getSellersFollowedByUser(@PathVariable @Min(0) Integer userId){
+        return usersService.getFollowingList(userId);
+    }
+
+
     @PostMapping("/{userId}/follow/{userIdToFollow}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(description = "Fetch a user by id, works for customers and sellers")
-    public void follow(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToFollow) {
-        usersService.follow(userId, userIdToFollow);
+    @Operation(description = "Add seller to customer following list")
+    public GenericMessageDTO followSeller(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToFollow){
+        usersService.follow(userId,userIdToFollow);
+        return new GenericMessageDTO("Seller followed succesfully!");
     }
 
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(description = "unfollows customer to seller, userId refers to customer and userIdToUnfollow refers to seller\n")
-    public void unfollow(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToUnfollow) {
+    public GenericMessageDTO unfollow(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToUnfollow) {
         usersService.unfollow(userId, userIdToUnfollow);
+        return new GenericMessageDTO("Seller unfollowed succesfully!");
     }
 
 }
