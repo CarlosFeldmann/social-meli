@@ -4,11 +4,8 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.UserForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services.UsersService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,6 +41,13 @@ public class UsersController {
     @Operation(description = "Fetch a user by id, works for customers and sellers")
     public UserDTO getUserInfo(@PathVariable @Min(0) Integer id) {
         return usersService.getUserInfo(id);
+    }
+
+    @PostMapping("/{userId}/follow/{userIdToFollow}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(description = "Fetch a user by id, works for customers and sellers")
+    public void follow(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToFollow) {
+        usersService.follow(userId, userIdToFollow);
     }
 
 }
