@@ -1,5 +1,6 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.FollowerCountDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.SellerFollowerListDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserFollowingListDTO;
@@ -31,6 +32,17 @@ public class UsersService {
     private UserRepository userRepository;
 
 
+    private Customer findCustomerById(Integer customerId) {
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId));
+    }
+
+    private Seller findSellerById(Integer sellerId) {
+        return sellerRepository.findById(sellerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId));
+    }
+
+
     public UserDTO getUserInfo(Integer userId) {
         return userRepository.findById(userId)
                 .map(UserDTO::fromEntity)
@@ -58,8 +70,7 @@ public class UsersService {
      * @return The response to the end user.
      */
     public UserFollowingListDTO getFollowingList(Integer customerId) {
-        var customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId));
+        var customer = findCustomerById(customerId);
         var followList = customer.getFollowed().stream()
                 .map(FollowDate::getSeller)
                 .map(UserDTO::fromEntity)
@@ -74,11 +85,8 @@ public class UsersService {
      * @param sellerId - seller ID
      */
     public void follow(Integer customerId, Integer sellerId) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId));
-        Seller seller = sellerRepository.findById(sellerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId));
-
+        Customer customer = findCustomerById(customerId);
+        Seller seller = findSellerById(sellerId);
         if (customer.isFollowing(seller))
             throw new ApiException(HttpStatus.BAD_REQUEST, "already_follows_error", "User already follows seller");
 
@@ -102,4 +110,14 @@ public class UsersService {
         return new SellerFollowerListDTO(sellerId, seller.getUserName(), followList);
     }
 
+    /**
+     * Get the follower count of a given seller
+     * @param sellerId - Id of the seller
+     * @return Human friendly response
+     */
+    public FollowerCountDTO getSellerFollowCount(Integer sellerId) {
+        Seller seller = findSellerById(sellerId);
+        long followersCount = sellerRepository.countFollowers(seller);
+        return new FollowerCountDTO(seller.getUserId(), seller.getUserName(), followersCount);
+    }
 }
