@@ -52,4 +52,11 @@ public class UsersController {
         usersService.follow(userId, userIdToFollow);
     }
 
+    @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(description = "unfollows customer to seller, userId refers to customer and userIdToUnfollow refers to seller\n")
+    public void unfollow(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToUnfollow) {
+        usersService.unfollow(userId, userIdToUnfollow);
+    }
+
 }
