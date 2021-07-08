@@ -56,7 +56,7 @@ public class UsersController {
 
     }
 
-    @GetMapping("/users/{userId}/followers/count")
+    @GetMapping("/{userId}/followers/count")
     @ResponseStatus(HttpStatus.OK)
     @Operation(description = "Return the follower count of a seller.")
     public FollowerCountDTO followersCount(@PathVariable @Min(0) Integer userId) {

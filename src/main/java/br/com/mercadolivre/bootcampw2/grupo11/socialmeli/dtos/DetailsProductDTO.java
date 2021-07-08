@@ -1,6 +1,7 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos;
 
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,13 @@ public class DetailsProductDTO {
     private String brand;
     private String color;
     private String notes;
+
+    public DetailsProductDTO(Product product) {
+        this.productId = product.getId();
+        this.productName = product.getProductName();
+        this.type = product.getType();
+        this.brand = product.getBrand();
+        this.color = product.getColor();
+        this.notes = product.getNotes();
+    }
 }

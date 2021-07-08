@@ -10,8 +10,10 @@ import org.springframework.stereotype.Repository;
 public interface SellerRepository extends JpaRepository<Seller, Integer> {
 
 
-    @Query("select count(o) from FollowDate o where o.seller = :seller")
+    @Query("select count(follow) from FollowDate follow where follow.seller = :seller")
     long countFollowers(@Param("seller") Seller seller);
 
 
+    @Query("select count(post) from PromotionPost post where post.seller = :seller")
+    long countPromotionalPost(@Param("seller") Seller seller);
 }

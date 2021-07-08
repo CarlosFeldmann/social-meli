@@ -1,6 +1,5 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +17,6 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "post")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@EqualsAndHashCode
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

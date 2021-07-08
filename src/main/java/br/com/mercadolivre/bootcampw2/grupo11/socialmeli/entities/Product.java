@@ -1,6 +1,5 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +10,6 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@EqualsAndHashCode
 public class Product {
 
     @Id
@@ -32,4 +30,5 @@ public class Product {
 
     @OneToOne(mappedBy = "detail")
     private Post postId;
+
 }
