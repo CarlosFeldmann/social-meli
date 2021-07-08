@@ -9,7 +9,24 @@ todo table of contents
 - [Victor Planas](https://github.com/Victor-Planas)
 
 ## 💻 Sobre o projeto
-todo
+Resolução do desafio proposto pela Digital House. Os requisitos podem ser encontrados [**aqui.**](https://docs.google.com/document/d/e/2PACX-1vRODnxUgWId0uaewPRRepfeLNXdi9iMKdE811dw_mwW_yK3k66vED2sam8ZNqB9PQ/pub)  
+
+### Arquitetura
+
+#### Organização de arquivos
+
+* `entities` - Entidades do banco de dados JPA;
+* `services` - Serviços relacionados à aplicação;
+* `controllers` - Controladores relacionados à aplicação;
+* `exceptions` - Exceções relacionadas à aplicação;
+* `forms` - Objetos associados às entradas de dados;
+* `dtos` - Objetos associados às saídas de dados;
+* `repositories` - Serviços para abstração do acesso aos dados;
+* `config` - Classes de configuração relacionadas ao framework;
+
+#### Banco de Dados
+Estamos utilizando H2(banco em memória SQL), utilizando JPA para acessar os dados, e também para geração de schema do banco.
+
 
 ## ⚙️ Requisitos entregues
 
