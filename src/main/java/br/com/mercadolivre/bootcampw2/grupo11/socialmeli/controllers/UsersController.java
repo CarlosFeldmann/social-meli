@@ -1,11 +1,13 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.controllers;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.FollowerCountDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.GenericMessageDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserFollowingListDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.UserForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services.UsersService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+
+@Tag(name = "User Controller", description = "Routes related to users, from creation to following")
 @Validated
 @RestController
 @RequestMapping("/users")
@@ -49,16 +53,23 @@ public class UsersController {
     @GetMapping("/{userId}/followed/list")
     @ResponseStatus(HttpStatus.OK)
     @Operation(description = "Get customer following list")
-    public UserFollowingListDTO getSellersFollowedByUser(@PathVariable @Min(0) Integer userId){
+    public UserFollowingListDTO getSellersFollowedByUser(@PathVariable @Min(0) Integer userId) {
         return usersService.getFollowingList(userId);
+
     }
 
+    @GetMapping("/users/{userId}/followers/count")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(description = "Return the follower count of a seller.")
+    public FollowerCountDTO followersCount(@PathVariable @Min(0) Integer userId) {
+        return usersService.getSellerFollowCount(userId);
+    }
 
     @PostMapping("/{userId}/follow/{userIdToFollow}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(description = "Add seller to customer following list")
-    public GenericMessageDTO followSeller(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToFollow){
-        usersService.follow(userId,userIdToFollow);
-        return new GenericMessageDTO("Seller followed succesfully!");
+    public GenericMessageDTO followSeller(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToFollow) {
+        usersService.follow(userId, userIdToFollow);
+        return new GenericMessageDTO("Seller followed successfully!");
     }
 }
