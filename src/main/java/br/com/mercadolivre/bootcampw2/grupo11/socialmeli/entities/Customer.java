@@ -38,7 +38,7 @@ public class Customer extends User{
         FollowDate followMatch = followed.stream()
                 .filter(a -> a.getSeller().equals(seller))
                 .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Seller", seller.getUserId()));
+                .orElseThrow(() -> new ResourceNotFoundException("FollowDate", seller.getUserId()));
         followed.remove(followMatch);
     }
 

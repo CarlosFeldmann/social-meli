@@ -97,7 +97,7 @@ public class UsersService {
                 .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId));
 
         if (!customer.isFollowing(seller))
-            throw new ApiException(HttpStatus.BAD_REQUEST, "already_unfollows_error", "User already unfollows seller");
+            throw new ApiException(HttpStatus.BAD_REQUEST, "customer_isnt_following_error", "User already unfollows seller");
 
         customer.removeFollow(seller);
 

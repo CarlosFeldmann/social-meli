@@ -65,7 +65,7 @@ public class UsersController {
 
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(description = "unfollows customer to seller, userId refers to customer and userIdToUnfollow refers to seller\n")
+    @Operation(description = "Unfollows customer to seller, userId refers to customer and userIdToUnfollow refers to seller")
     public GenericMessageDTO unfollow(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToUnfollow) {
         usersService.unfollow(userId, userIdToUnfollow);
         return new GenericMessageDTO("Seller unfollowed succesfully!");
