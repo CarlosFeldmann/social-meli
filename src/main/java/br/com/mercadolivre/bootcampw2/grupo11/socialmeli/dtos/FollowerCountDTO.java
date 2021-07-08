@@ -9,5 +9,6 @@ import lombok.Data;
 public class FollowerCountDTO {
     private int userId;
     private String userName;
-    int followersCount;
+    private long followersCount;
+
 }

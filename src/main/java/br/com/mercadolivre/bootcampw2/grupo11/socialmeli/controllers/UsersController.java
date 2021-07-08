@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
+
+@Tag(name = "User Controller", description = "Routes related to users, from creation to following")
 @RestController
 @RequestMapping("/users")
 @Validated
@@ -51,17 +53,24 @@ public class UsersController {
     @GetMapping("/{userId}/followed/list")
     @ResponseStatus(HttpStatus.OK)
     @Operation(description = "Get customer following list")
-    public UserFollowingListDTO getSellersFollowedByUser(@PathVariable @Min(0) Integer userId){
+    public UserFollowingListDTO getSellersFollowedByUser(@PathVariable @Min(0) Integer userId) {
         return usersService.getFollowingList(userId);
+
     }
 
+    @GetMapping("/users/{userId}/followers/count")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(description = "Return the follower count of a seller.")
+    public FollowerCountDTO followersCount(@PathVariable @Min(0) Integer userId) {
+        return usersService.getSellerFollowCount(userId);
+    }
 
     @PostMapping("/{userId}/follow/{userIdToFollow}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(description = "Add seller to customer following list")
-    public GenericMessageDTO followSeller(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToFollow){
-        usersService.follow(userId,userIdToFollow);
-        return new GenericMessageDTO("Seller followed succesfully!");
+    public GenericMessageDTO followSeller(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToFollow) {
+        usersService.follow(userId, userIdToFollow);
+        return new GenericMessageDTO("Seller followed successfully!");
     }
 
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
@@ -69,7 +78,7 @@ public class UsersController {
     @Operation(description = "Unfollows customer to seller, userId refers to customer and userIdToUnfollow refers to seller")
     public GenericMessageDTO unfollow(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToUnfollow) {
         usersService.unfollow(userId, userIdToUnfollow);
-        return new GenericMessageDTO("Seller unfollowed succesfully!");
+        return new GenericMessageDTO("Seller unfollowed successfully!");
     }
 
 

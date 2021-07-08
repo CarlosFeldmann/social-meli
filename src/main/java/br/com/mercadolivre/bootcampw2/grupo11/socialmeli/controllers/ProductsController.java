@@ -5,14 +5,18 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.CreatePostForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.DateOrderEnum;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services.ProductsService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
+
+import javax.validation.constraints.Min;
 import java.util.List;
 
+@Tag(name = "Products/Posts Controller", description = "Routes related to creation of posts and fetching")
 @Validated
 @RestController
 @RequestMapping("/products")
