@@ -65,7 +65,7 @@ public class UsersController {
 
     @GetMapping("/{userId}/followers/list")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(description = "List all customers that follow given seller")
+    @Operation(description = "List all customers that follow a given seller")
     public SellerFollowerListDTO listSellerFollowers(@PathVariable @Min(0) Integer userId){
         return usersService.getFollowerList(userId);
     }
