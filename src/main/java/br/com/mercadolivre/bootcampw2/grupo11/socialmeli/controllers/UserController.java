@@ -1,6 +1,7 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.controllers;
 
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.*;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.GenericMessageDTO;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow.FollowerCountDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow.SellerFollowerListDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow.UserFollowingListDTO;

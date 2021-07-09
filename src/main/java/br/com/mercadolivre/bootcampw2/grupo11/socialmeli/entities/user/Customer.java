@@ -1,7 +1,6 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user;
 
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.Follow;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.FollowKey;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ResourceNotFoundException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

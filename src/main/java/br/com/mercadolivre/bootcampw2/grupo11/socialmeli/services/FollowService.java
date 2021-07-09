@@ -1,11 +1,11 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow.FollowerCountDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow.SellerFollowerListDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow.UserFollowingListDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user.Customer;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.Follow;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user.Customer;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user.Seller;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ApiException;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.ListOrderEnum;

@@ -13,7 +13,10 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ResourceNotF
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.CreatePostForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.CreatePromocionalPostForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.DateOrderEnum;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.*;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.CustomerRepository;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.PostRepository;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.PromotionalPostRepository;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.SellerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,8 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow;
 
 
-import lombok.Getter;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
+import lombok.Getter;
 
 import java.util.List;
 
