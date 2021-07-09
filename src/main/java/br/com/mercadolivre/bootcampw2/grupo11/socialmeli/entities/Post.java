@@ -3,13 +3,15 @@ package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- *  This entity associates posts to products in a OneToOne relationship
+ * This entity associates posts to products in a OneToOne relationship
  */
 @Getter
 @Setter
@@ -25,7 +27,8 @@ public class Post {
 
     private LocalDate date;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @Fetch(FetchMode.JOIN)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", referencedColumnName = "product_id")
     private Product detail;
 
