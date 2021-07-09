@@ -1,5 +1,6 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.controllers;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.PostDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.PostsBySellerDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.CreatePostForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.DateOrderEnum;
@@ -11,10 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
-
-import javax.validation.constraints.Min;
-import java.util.List;
 
 @Tag(name = "Products/Posts Controller", description = "Routes related to creation of posts and fetching")
 @Validated
@@ -28,8 +27,8 @@ public class ProductsController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(description="Create a new Post")
     @PostMapping("/newpost")
-    public void post(@RequestBody CreatePostForm Postform) {
-        productsService.createNewPost(Postform);
+    public PostDTO post(@RequestBody @Valid CreatePostForm form) {
+        return productsService.createPost(form);
     }
 
     @Operation(description="Get all posts from followed Sellers of a certain user")

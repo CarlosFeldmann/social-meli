@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -23,11 +24,12 @@ public class CreatePostForm {
     private LocalDate date;
 
     @NotNull
+    @Valid
     private DetailsProductForm detail;
 
     @NotNull
     @Min(0)
-        private Integer category;
+    private Integer category;
 
     @NotNull
     @DecimalMin(value = "0.01")

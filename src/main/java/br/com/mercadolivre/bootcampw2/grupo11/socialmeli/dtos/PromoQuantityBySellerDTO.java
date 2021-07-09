@@ -1,6 +1,7 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -9,5 +10,6 @@ import lombok.Data;
 public class PromoQuantityBySellerDTO {
     private int userId;
     private String userName;
-    private int promoProductsCount;
+    @JsonProperty("promoproducts_count")
+    private long promoProductsCount;
 }
