@@ -9,6 +9,7 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.FollowDate;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Seller;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ApiException;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ResourceNotFoundException;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.ListOrderEnum;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.UserForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.CustomerRepository;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.SellerRepository;
@@ -17,6 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,6 +71,7 @@ public class UsersService {
 
     /**
      * This method is used for getting a list of seller that a given customer follows.
+     *
      * @param customerId - customer ID
      * @return The response to the end user.
      */
@@ -81,8 +87,9 @@ public class UsersService {
 
     /**
      * This method is used to trigger following sequence for a customer following a seller
+     *
      * @param customerId - customer ID
-     * @param sellerId - seller ID
+     * @param sellerId   - seller ID
      */
     public void follow(Integer customerId, Integer sellerId) {
         Customer customer = findCustomerById(customerId);
@@ -96,8 +103,9 @@ public class UsersService {
 
     /**
      * This method is used to trigger unfollowing sequence for a customer unfollowing a seller
+     *
      * @param customerId - customer ID
-     * @param sellerId - seller ID
+     * @param sellerId   - seller ID
      */
     public void unfollow(Integer customerId, Integer sellerId) {
         Customer customer = customerRepository.findById(customerId)
@@ -114,23 +122,38 @@ public class UsersService {
     }
 
     /**
-     * This method is used to list all followers from a given seller
+     * This method is used to list all followers from a given seller with an optional given order
+     *
      * @param sellerId - seller ID
+     * @param order    - order in which the follower list is ordered
      * @return Object DTO to the end user
      */
-    public SellerFollowerListDTO getFollowerList(Integer sellerId) {
+    public SellerFollowerListDTO getFollowerList(Integer sellerId, ListOrderEnum order) {
         var seller = sellerRepository.findById(sellerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId));
         var followList = seller.getFollowers().stream()
                 .map(FollowDate::getCustomer)
                 .map(UserDTO::fromEntity)
                 .collect(Collectors.toList());
+        var comparator = Comparator.comparing(UserDTO::getUserName, String.CASE_INSENSITIVE_ORDER);
 
+        switch (order) {
+            case name_asc:
+                followList.sort(comparator);
+                break;
+            case name_desc:
+                followList.sort(comparator.reversed());
+                break;
+            default:
+                throw new ApiException(HttpStatus.BAD_REQUEST, "invalid_sort_request", "The sorting requested does not exist.");
+
+        }
         return new SellerFollowerListDTO(sellerId, seller.getUserName(), followList);
     }
 
     /**
      * Get the follower count of a given seller
+     *
      * @param sellerId - ID of the seller
      * @return Human friendly response
      */
