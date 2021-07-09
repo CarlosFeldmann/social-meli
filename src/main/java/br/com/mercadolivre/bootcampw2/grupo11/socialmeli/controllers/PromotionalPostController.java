@@ -26,7 +26,7 @@ public class PromotionalPostController {
         this.postService = postService;
     }
 
-    @Operation(description = "Create a promotional post")
+    @Operation(description = "Create a promotional post", summary = "create a promotional post")
     @PostMapping("/newpromopost")
     @ResponseStatus(HttpStatus.CREATED)
     public PromotionalPostDTO createPromotionalPost(@Valid @RequestBody CreatePromocionalPostForm form) {
@@ -34,14 +34,14 @@ public class PromotionalPostController {
     }
 
 
-    @Operation(description = "Get promotional posts count for a given seller")
+    @Operation(description = "Get promotional posts count for a given seller", summary = "promotional post count by seller")
     @PostMapping("/{userId}/countPromo/")
     @ResponseStatus(HttpStatus.OK)
     public PromotionalQuantityBySellerDTO getPromotionalPostCountBySeller(@PathVariable(name = "userId") @Min(0) Integer sellerId) {
         return postService.getPromotionalPostsCountBySeller(sellerId);
     }
 
-    @Operation(description = "Get promotional posts from a given seller")
+    @Operation(description = "Get promotional posts from a given seller", summary = "promotional posts from seller")
     @GetMapping("/{userId}/list/")
     @ResponseStatus(HttpStatus.OK)
     public ListPromotionalPostsBySellerDTO getPromotionalPostsBySeller(@PathVariable(name = "userId") @Min(0) Integer sellerId) {
