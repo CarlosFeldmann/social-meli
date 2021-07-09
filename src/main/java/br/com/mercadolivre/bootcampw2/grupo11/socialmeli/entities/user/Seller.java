@@ -1,6 +1,6 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user;
 
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.FollowDate;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.Follow;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.post.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Seller extends User {
     @OneToMany(mappedBy = "seller")
-    private Set<FollowDate> followers;
+    private Set<Follow> followers;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Post> posts;

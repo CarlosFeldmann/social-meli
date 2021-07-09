@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface SellerRepository extends BaseRepository<Seller, Integer> {
 
 
-    @Query("select count(follow) from FollowDate follow where follow.seller = :seller")
+    @Query("select count(follow) from Follow follow where follow.seller = :seller")
     long countFollowers(@Param("seller") Seller seller);
 
 

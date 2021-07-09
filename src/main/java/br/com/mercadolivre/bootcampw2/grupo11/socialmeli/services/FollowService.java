@@ -5,7 +5,7 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow.SellerFollo
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow.UserFollowingListDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user.Customer;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.FollowDate;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.Follow;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user.Seller;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ApiException;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.ListOrderEnum;
@@ -36,7 +36,7 @@ public class FollowService {
     public UserFollowingListDTO getFollowingList(Integer customerId) {
         var customer = customerRepository.findByIdOrElseThrow(customerId);
         var followList = customer.getFollowed().stream()
-                .map(FollowDate::getSeller)
+                .map(Follow::getSeller)
                 .map(UserDTO::fromEntity)
                 .collect(Collectors.toList());
 

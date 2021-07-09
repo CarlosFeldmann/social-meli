@@ -1,11 +1,11 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.PromotionalQuantityBySellerDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.post.PostDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.post.PostsBySellerDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.promotional.ListPromotionalPostsBySellerDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.promotional.PromotionalPostDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.promotional.PromotionalQuantityBySellerDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.FollowDate;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.Follow;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.post.Post;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.post.Product;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.post.PromotionalPost;
@@ -83,7 +83,7 @@ public class PostService {
         return new PostsBySellerDTO(idUser, postsDTO);
     }
 
-    public Set<FollowDate> getSellersFollowedByUser(int idUser) {
+    public Set<Follow> getSellersFollowedByUser(int idUser) {
         var customer = customerRepository.findById(idUser).orElseThrow(()
                 ->
                 new ResourceNotFoundException("User Id", idUser));

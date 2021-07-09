@@ -1,8 +1,8 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.controllers;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.PromotionalQuantityBySellerDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.promotional.ListPromotionalPostsBySellerDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.promotional.PromotionalPostDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.promotional.PromotionalQuantityBySellerDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.CreatePromocionalPostForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services.PostService;
 import io.swagger.v3.oas.annotations.Operation;
