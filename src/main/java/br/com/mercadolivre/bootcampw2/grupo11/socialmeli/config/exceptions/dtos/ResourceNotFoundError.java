@@ -8,7 +8,7 @@ import lombok.Getter;
 public class ResourceNotFoundError extends ApiError {
 
     private String resource;
-    private Integer resourceId;
+    private Object resourceId;
 
     public ResourceNotFoundError(ResourceNotFoundException exception) {
         super(exception);

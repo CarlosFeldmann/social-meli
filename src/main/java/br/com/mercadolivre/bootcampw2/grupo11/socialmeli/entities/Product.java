@@ -28,7 +28,4 @@ public class Product {
 
     private String notes;
 
-    @OneToOne(mappedBy = "detail")
-    private Post postId;
-
 }

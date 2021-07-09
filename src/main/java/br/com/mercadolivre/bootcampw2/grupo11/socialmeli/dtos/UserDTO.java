@@ -4,8 +4,6 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.Locale;
-
 @Data
 @AllArgsConstructor
 public class UserDTO{

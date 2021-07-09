@@ -8,7 +8,6 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Customer;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.FollowDate;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Seller;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ApiException;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ResourceNotFoundException;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.ListOrderEnum;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.UserForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.CustomerRepository;
@@ -18,10 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,21 +33,8 @@ public class UsersService {
     private UserRepository userRepository;
 
 
-    private Customer findCustomerById(Integer customerId) {
-        return customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId));
-    }
-
-    private Seller findSellerById(Integer sellerId) {
-        return sellerRepository.findById(sellerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId));
-    }
-
-
     public UserDTO getUserInfo(Integer userId) {
-        return userRepository.findById(userId)
-                .map(UserDTO::fromEntity)
-                .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+        return UserDTO.fromEntity(userRepository.findByIdOrElseThrow(userId));
     }
 
 
@@ -76,7 +59,7 @@ public class UsersService {
      * @return The response to the end user.
      */
     public UserFollowingListDTO getFollowingList(Integer customerId) {
-        var customer = findCustomerById(customerId);
+        var customer = customerRepository.findByIdOrElseThrow(customerId);
         var followList = customer.getFollowed().stream()
                 .map(FollowDate::getSeller)
                 .map(UserDTO::fromEntity)
@@ -92,8 +75,8 @@ public class UsersService {
      * @param sellerId   - seller ID
      */
     public void follow(Integer customerId, Integer sellerId) {
-        Customer customer = findCustomerById(customerId);
-        Seller seller = findSellerById(sellerId);
+        Customer customer = customerRepository.findByIdOrElseThrow(customerId);
+        Seller seller = sellerRepository.findByIdOrElseThrow(sellerId);
         if (customer.isFollowing(seller))
             throw new ApiException(HttpStatus.BAD_REQUEST, "already_follows_error", "User already follows seller");
 
@@ -108,10 +91,8 @@ public class UsersService {
      * @param sellerId   - seller ID
      */
     public void unfollow(Integer customerId, Integer sellerId) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer", customerId));
-        Seller seller = sellerRepository.findById(sellerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId));
+        Customer customer = customerRepository.findByIdOrElseThrow(customerId);
+        Seller seller = sellerRepository.findByIdOrElseThrow(sellerId);
 
         if (!customer.isFollowing(seller))
             throw new ApiException(HttpStatus.BAD_REQUEST, "customer_isnt_following_error", "User already unfollows seller");
@@ -129,8 +110,8 @@ public class UsersService {
      * @return Object DTO to the end user
      */
     public SellerFollowerListDTO getFollowerList(Integer sellerId, ListOrderEnum order) {
-        var seller = sellerRepository.findById(sellerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Seller", sellerId));
+        Seller seller = sellerRepository.findByIdOrElseThrow(sellerId);
+
         var followList = seller.getFollowers().stream()
                 .map(FollowDate::getCustomer)
                 .map(UserDTO::fromEntity)
@@ -158,7 +139,8 @@ public class UsersService {
      * @return Human friendly response
      */
     public FollowerCountDTO getSellerFollowCount(Integer sellerId) {
-        Seller seller = findSellerById(sellerId);
+        Seller seller = sellerRepository.findByIdOrElseThrow(sellerId);
+
         long followersCount = sellerRepository.countFollowers(seller);
         return new FollowerCountDTO(seller.getUserId(), seller.getUserName(), followersCount);
     }
