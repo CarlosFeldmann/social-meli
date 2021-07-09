@@ -1,10 +1,10 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.controllers;
 
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.ListPromoProductsBySellerDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.PromoPostDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.PromoQuantityBySellerDTO;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.PromotionalQuantityBySellerDTO;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.promotional.ListPromotionalPostsBySellerDTO;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.promotional.PromotionalPostDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.CreatePromocionalPostForm;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services.ProductsService;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,33 +19,33 @@ import javax.validation.constraints.Min;
 @RequestMapping("/products")
 public class PromotionalPostController {
 
-    private ProductsService productsService;
+    private PostService postService;
 
     @Autowired
-    public PromotionalPostController(ProductsService productsService) {
-        this.productsService = productsService;
+    public PromotionalPostController(PostService postService) {
+        this.postService = postService;
     }
 
     @Operation(description = "Create a promotional post")
     @PostMapping("/newpromopost")
     @ResponseStatus(HttpStatus.CREATED)
-    public PromoPostDTO createPromotionalPost(@Valid @RequestBody CreatePromocionalPostForm form) {
-        return productsService.createPromotionalPost(form);
+    public PromotionalPostDTO createPromotionalPost(@Valid @RequestBody CreatePromocionalPostForm form) {
+        return postService.createPromotionalPost(form);
     }
 
 
     @Operation(description = "Get promotional posts count for a given seller")
     @PostMapping("/{userId}/countPromo/")
     @ResponseStatus(HttpStatus.OK)
-    public PromoQuantityBySellerDTO getPromotionalPostCountBySeller(@PathVariable(name = "userId") @Min(0) Integer sellerId) {
-        return productsService.getPromotionalPostsCountBySeller(sellerId);
+    public PromotionalQuantityBySellerDTO getPromotionalPostCountBySeller(@PathVariable(name = "userId") @Min(0) Integer sellerId) {
+        return postService.getPromotionalPostsCountBySeller(sellerId);
     }
 
     @Operation(description = "Get promotional posts from a given seller")
     @GetMapping("/{userId}/list/")
     @ResponseStatus(HttpStatus.OK)
-    public ListPromoProductsBySellerDTO getPromotionalPostsBySeller(@PathVariable(name = "userId") @Min(0) Integer sellerId) {
-        return productsService.getPromotionalPostsBySeller(sellerId);
+    public ListPromotionalPostsBySellerDTO getPromotionalPostsBySeller(@PathVariable(name = "userId") @Min(0) Integer sellerId) {
+        return postService.getPromotionalPostsBySeller(sellerId);
     }
 
 }

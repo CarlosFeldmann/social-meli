@@ -1,6 +1,6 @@
-package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos;
+package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.post;
 
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Post;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.post.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

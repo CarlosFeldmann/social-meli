@@ -1,4 +1,4 @@
-package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities;
+package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.post;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PromotionPost extends Post{
+public class PromotionalPost extends Post {
 
     private Boolean hasPromo;
 

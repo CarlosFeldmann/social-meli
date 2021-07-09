@@ -1,5 +1,7 @@
-package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities;
+package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user.Customer;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,9 +18,9 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FollowDate {
+public class Follow {
     @EmbeddedId
-    private FollowDateKey id;
+    private FollowKey id;
 
     @ManyToOne
     @MapsId("userFollowerId")
@@ -37,10 +39,10 @@ public class FollowDate {
      * @param customer - Customer who will perform the following action
      * @param seller   - seller who will be followed
      */
-    public FollowDate(Customer customer, Seller seller) {
+    public Follow(Customer customer, Seller seller) {
         this.customer = customer;
         this.seller = seller;
-        this.id = new FollowDateKey(customer.getUserId(), seller.getUserId());
+        this.id = new FollowKey(customer.getUserId(), seller.getUserId());
         this.date = LocalDate.now();
     }
 }

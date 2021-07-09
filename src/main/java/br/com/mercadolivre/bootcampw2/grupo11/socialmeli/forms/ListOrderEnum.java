@@ -1,7 +1,7 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms;
 
 
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Customer;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.domain.Sort;

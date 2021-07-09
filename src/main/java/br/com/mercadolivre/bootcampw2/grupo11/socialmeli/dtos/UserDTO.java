@@ -1,6 +1,6 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos;
 
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.User;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;

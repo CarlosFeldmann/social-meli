@@ -1,4 +1,4 @@
-package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities;
+package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow;
 
 import lombok.*;
 
@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class FollowDateKey implements Serializable {
+public class FollowKey implements Serializable {
 
     @Column(name = "user_follower_id")
     private Integer userFollowerId;

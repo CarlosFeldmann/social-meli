@@ -1,18 +1,16 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services;
 
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.FollowerCountDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.SellerFollowerListDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserFollowingListDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Customer;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.FollowDate;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.Seller;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow.FollowerCountDTO;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow.SellerFollowerListDTO;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow.UserFollowingListDTO;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.Follow;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user.Customer;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user.Seller;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ApiException;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.ListOrderEnum;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.UserForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.CustomerRepository;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.SellerRepository;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,36 +19,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UsersService {
+public class FollowService {
 
     @Autowired
     private SellerRepository sellerRepository;
 
     @Autowired
     private CustomerRepository customerRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-
-    public UserDTO getUserInfo(Integer userId) {
-        return UserDTO.fromEntity(userRepository.findByIdOrElseThrow(userId));
-    }
-
-
-    public UserDTO createCustomer(UserForm form) {
-        var customer = new Customer();
-        customer.setUserName(form.getUsername());
-        customerRepository.save(customer);
-        return UserDTO.fromEntity(customer);
-    }
-
-    public UserDTO createSeller(UserForm form) {
-        var seller = new Seller();
-        seller.setUserName(form.getUsername());
-        sellerRepository.save(seller);
-        return UserDTO.fromEntity(seller);
-    }
 
     /**
      * This method is used for getting a list of seller that a given customer follows.
@@ -61,7 +36,7 @@ public class UsersService {
     public UserFollowingListDTO getFollowingList(Integer customerId) {
         var customer = customerRepository.findByIdOrElseThrow(customerId);
         var followList = customer.getFollowed().stream()
-                .map(FollowDate::getSeller)
+                .map(Follow::getSeller)
                 .map(UserDTO::fromEntity)
                 .collect(Collectors.toList());
 
@@ -74,7 +49,7 @@ public class UsersService {
      * @param customerId - customer ID
      * @param sellerId   - seller ID
      */
-    public void follow(Integer customerId, Integer sellerId) {
+    public void followSeller(Integer customerId, Integer sellerId) {
         Customer customer = customerRepository.findByIdOrElseThrow(customerId);
         Seller seller = sellerRepository.findByIdOrElseThrow(sellerId);
         if (customer.isFollowing(seller))
@@ -90,7 +65,7 @@ public class UsersService {
      * @param customerId - customer ID
      * @param sellerId   - seller ID
      */
-    public void unfollow(Integer customerId, Integer sellerId) {
+    public void unfollowSeller(Integer customerId, Integer sellerId) {
         Customer customer = customerRepository.findByIdOrElseThrow(customerId);
         Seller seller = sellerRepository.findByIdOrElseThrow(sellerId);
 

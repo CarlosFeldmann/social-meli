@@ -1,5 +1,6 @@
-package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities;
+package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.Follow;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ResourceNotFoundException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,18 +17,17 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Customer extends User{
+public class Customer extends User {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<FollowDate> followed;
+    private Set<Follow> followed;
 
     /**
      *
      * @param seller - seller who will be followed
      */
     public void addFollow(Seller seller){
-        FollowDateKey tmpFollowDateKey = new FollowDateKey(this.getUserId(),seller.getUserId());
-        FollowDate tmpFollowDate = new FollowDate(this, seller);
-        followed.add(tmpFollowDate);
+        Follow follow = new Follow(this, seller);
+        followed.add(follow);
     }
 
     /**
@@ -35,15 +35,15 @@ public class Customer extends User{
      * @param seller - seller who will be unfollowed
      */
     public void removeFollow(Seller seller){
-        FollowDate followMatch = followed.stream()
+        Follow followMatch = followed.stream()
                 .filter(a -> a.getSeller().equals(seller))
                 .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("FollowDate", seller.getUserId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Follow", seller.getUserId()));
         followed.remove(followMatch);
     }
 
     public boolean isFollowing(Seller seller){
         return this.followed.stream()
-                .anyMatch(followDate -> followDate.getSeller().equals(seller));
+                .anyMatch(follow -> follow.getSeller().equals(seller));
     }
 }

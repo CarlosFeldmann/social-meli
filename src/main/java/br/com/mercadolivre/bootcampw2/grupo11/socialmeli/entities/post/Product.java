@@ -1,4 +1,4 @@
-package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities;
+package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.post;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
