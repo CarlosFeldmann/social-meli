@@ -1,6 +1,7 @@
-package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos;
+package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow;
 
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

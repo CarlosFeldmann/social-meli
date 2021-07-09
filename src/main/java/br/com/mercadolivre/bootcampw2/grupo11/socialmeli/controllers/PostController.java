@@ -1,10 +1,10 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.controllers;
 
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.PostDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.PostsBySellerDTO;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.post.PostDTO;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.post.PostsBySellerDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.CreatePostForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.DateOrderEnum;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services.ProductsService;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.services.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +19,16 @@ import javax.validation.constraints.Min;
 @Validated
 @RestController
 @RequestMapping("/products")
-public class ProductsController {
+public class PostController {
 
     @Autowired
-    private ProductsService productsService;
+    private PostService postService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(description="Create a new Post")
     @PostMapping("/newpost")
     public PostDTO post(@RequestBody @Valid CreatePostForm form) {
-        return productsService.createPost(form);
+        return postService.createPost(form);
     }
 
     @Operation(description="Get all posts from followed Sellers of a certain user")
@@ -36,7 +36,7 @@ public class ProductsController {
     @ResponseStatus(HttpStatus.OK)
     public PostsBySellerDTO postsFromSellersByUser(@PathVariable @Min(0) int userid,
                                                    @RequestParam(name = "order", defaultValue= "date_asc") DateOrderEnum order) {
-        return productsService.getPostsFromFollowedSellers(userid, order);
+        return postService.getPostsFromFollowedSellers(userid, order);
     }
 
 }

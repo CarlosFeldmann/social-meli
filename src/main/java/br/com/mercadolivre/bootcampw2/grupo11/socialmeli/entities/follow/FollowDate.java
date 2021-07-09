@@ -1,5 +1,8 @@
-package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities;
+package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.FollowDateKey;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user.Customer;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user.Seller;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

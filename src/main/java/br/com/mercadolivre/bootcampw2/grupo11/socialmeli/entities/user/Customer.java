@@ -1,5 +1,7 @@
-package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities;
+package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.FollowDate;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.FollowDateKey;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ResourceNotFoundException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Customer extends User{
+public class Customer extends User {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<FollowDate> followed;
 

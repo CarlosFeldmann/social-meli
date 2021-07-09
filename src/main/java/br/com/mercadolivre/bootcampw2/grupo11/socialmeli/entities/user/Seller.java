@@ -1,5 +1,7 @@
-package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities;
+package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user;
 
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.FollowDate;
+import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.post.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +18,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Seller extends User{
+public class Seller extends User {
     @OneToMany(mappedBy = "seller")
     private Set<FollowDate> followers;
 
