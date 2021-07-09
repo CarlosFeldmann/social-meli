@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -112,24 +112,13 @@ public class UsersService {
     public SellerFollowerListDTO getFollowerList(Integer sellerId, ListOrderEnum order) {
         Seller seller = sellerRepository.findByIdOrElseThrow(sellerId);
 
-        var followList = seller.getFollowers().stream()
-                .map(FollowDate::getCustomer)
+        List<Customer> followers = customerRepository.getCustomersFollowing(seller, order.getSort());
+
+        var followListDTO = followers.stream()
                 .map(UserDTO::fromEntity)
                 .collect(Collectors.toList());
-        var comparator = Comparator.comparing(UserDTO::getUserName, String.CASE_INSENSITIVE_ORDER);
 
-        switch (order) {
-            case name_asc:
-                followList.sort(comparator);
-                break;
-            case name_desc:
-                followList.sort(comparator.reversed());
-                break;
-            default:
-                throw new ApiException(HttpStatus.BAD_REQUEST, "invalid_sort_request", "The sorting requested does not exist.");
-
-        }
-        return new SellerFollowerListDTO(sellerId, seller.getUserName(), followList);
+        return new SellerFollowerListDTO(sellerId, seller.getUserName(), followListDTO);
     }
 
     /**
