@@ -15,7 +15,7 @@ public class CreatePromocionalPostForm extends CreatePostForm {
 
 
     @NotNull
-    @Schema(example = "true", description = "If this post have a promotional price")
+    @Schema(example = "true", description = "If this post has a promotional price")
     private Boolean hasPromo;
 
     @NotNull
