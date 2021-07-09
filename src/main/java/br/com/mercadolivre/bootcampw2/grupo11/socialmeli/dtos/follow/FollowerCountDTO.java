@@ -1,14 +1,15 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
-@AllArgsConstructor
-public class FollowerCountDTO {
-    private int userId;
-    private String userName;
+@Getter
+public class FollowerCountDTO extends UserDTO {
     private long followersCount;
 
+
+    public FollowerCountDTO(int userId, String userName, long followersCount) {
+        super(userId, userName);
+        this.followersCount = followersCount;
+    }
 }

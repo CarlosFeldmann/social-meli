@@ -15,4 +15,5 @@ public interface SellerRepository extends BaseRepository<Seller, Integer> {
 
     @Query("select count(post) from PromotionalPost post where post.seller = :seller")
     long countPromotionalPost(@Param("seller") Seller seller);
+
 }

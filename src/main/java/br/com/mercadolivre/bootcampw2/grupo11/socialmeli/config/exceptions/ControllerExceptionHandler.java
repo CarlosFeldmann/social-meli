@@ -7,6 +7,8 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.config.exceptions.dtos.
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.config.exceptions.dtos.ValidationError;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ApiException;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ResourceNotFoundException;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +50,11 @@ public class ControllerExceptionHandler {
      */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
-    @ApiResponse(responseCode = "404", description = "Unable to find resource in server")
+    @ApiResponse(
+            responseCode = "404",
+            description = "Unable to find resource in server",
+            content = @Content(schema = @Schema(implementation = ResourceNotFoundError.class))
+    )
     public ResponseEntity<ResourceNotFoundError> handleResourceNotFound(ResourceNotFoundException exception) {
         var errorDto = new ResourceNotFoundError(exception);
         return ResponseEntity
@@ -62,7 +68,11 @@ public class ControllerExceptionHandler {
      * @param exception - Exception to be handled
      * @return Human friendly response
      */
-    @ApiResponse(responseCode = "400", description = "Invalid input data.")
+    @ApiResponse(
+            responseCode = "400",
+            description = "Invalid input data.",
+            content = @Content(schema = @Schema(implementation = ValidationError.class))
+    )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationError> handleInvalidInput(MethodArgumentNotValidException exception) {
@@ -84,7 +94,11 @@ public class ControllerExceptionHandler {
      * @param exception - Exception to be handled
      * @return Human friendly response
      */
-    @ApiResponse(responseCode = "400", description = "Invalid input data.")
+    @ApiResponse(
+            responseCode = "400",
+            description = "Invalid input data.",
+            content = @Content(schema = @Schema(implementation = ValidationError.class), mediaType = "application/json")
+    )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ValidationError> handleInvalidInput(ConstraintViolationException exception) {

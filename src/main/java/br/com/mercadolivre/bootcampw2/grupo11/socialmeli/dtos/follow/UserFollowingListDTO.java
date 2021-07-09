@@ -1,16 +1,17 @@
 package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow;
 
 
+import lombok.Getter;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-public class UserFollowingListDTO {
-    private int userId;
-    private String userName;
+@Getter
+public class UserFollowingListDTO extends UserDTO {
     private List<UserDTO> followed;
+
+    public UserFollowingListDTO(int userId, String userName, List<UserDTO> followed) {
+        super(userId, userName);
+        this.followed = followed;
+    }
 }
