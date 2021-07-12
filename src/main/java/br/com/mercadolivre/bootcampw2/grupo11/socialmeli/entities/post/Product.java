@@ -12,20 +12,19 @@ import javax.persistence.*;
 @Entity
 public class Product {
 
-    @Id
-    @Column(name = "product_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+  @Id
+  @Column(name = "product_id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    @Column(name = "produt_name")
-    private String productName;
+  @Column(name = "produt_name")
+  private String productName;
 
-    private String type;
+  private String type;
 
-    private String brand;
+  private String brand;
 
-    private String color;
+  private String color;
 
-    private String notes;
-
+  private String notes;
 }

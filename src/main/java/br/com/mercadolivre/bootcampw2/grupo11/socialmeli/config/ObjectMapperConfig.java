@@ -15,52 +15,50 @@ import java.time.format.DateTimeFormatter;
 
 @Configuration
 public class ObjectMapperConfig {
-    private static final String DATE_FORMAT = "dd-MM-yyyy";
+  private static final String DATE_FORMAT = "dd-MM-yyyy";
 
-    @Bean
-    @Primary
-    public ObjectMapper configureObjectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
+  @Bean
+  @Primary
+  public ObjectMapper configureObjectMapper() {
+    ObjectMapper objectMapper = new ObjectMapper();
 
-        objectMapper.registerModule(createTimeModule());
+    objectMapper.registerModule(createTimeModule());
 
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-        objectMapper.setDateFormat(sdf);
-        return objectMapper;
-    }
+    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+    objectMapper.setDateFormat(sdf);
+    return objectMapper;
+  }
 
+  private JavaTimeModule createTimeModule() {
+    /*
+     * The default objectMapper.setDateFormat doesn't work with LocalDate and LocalDateTime
+     * So, since we need to receive and return LocalDate in another pattern we need to
+     * register a custom serializer and deserializer to handle this pattern
+     */
+    var module = new JavaTimeModule();
+    module
+        .addSerializer(LocalDate.class, createLocalDateJsonSerializer())
+        .addDeserializer(LocalDate.class, createLocalDateJsonDeserializer());
 
-    private JavaTimeModule createTimeModule() {
-        /*
-         * The default objectMapper.setDateFormat doesn't work with LocalDate and LocalDateTime
-         * So, since we need to receive and return LocalDate in another pattern we need to
-         * register a custom serializer and deserializer to handle this pattern
-         */
-        var module = new JavaTimeModule();
-        module
-                .addSerializer(LocalDate.class, createLocalDateJsonSerializer())
-                .addDeserializer(LocalDate.class, createLocalDateJsonDeserializer());
+    return module;
+  }
 
-        return module;
-    }
+  private JsonSerializer<LocalDate> createLocalDateJsonSerializer() {
+    return new JsonSerializer<>() {
+      @Override
+      public void serialize(LocalDate value, JsonGenerator gen, SerializerProvider serializers)
+          throws IOException {
+        gen.writeString(value.format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
+      }
+    };
+  }
 
-
-    private JsonSerializer<LocalDate> createLocalDateJsonSerializer() {
-        return new JsonSerializer<>() {
-            @Override
-            public void serialize(LocalDate value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-                gen.writeString(value.format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
-            }
-        };
-    }
-
-    private JsonDeserializer<LocalDate> createLocalDateJsonDeserializer() {
-        return new JsonDeserializer<>() {
-            @Override
-            public LocalDate deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-                return LocalDate.parse(p.getValueAsString(), DateTimeFormatter.ofPattern(DATE_FORMAT));
-            }
-        };
-    }
-
+  private JsonDeserializer<LocalDate> createLocalDateJsonDeserializer() {
+    return new JsonDeserializer<>() {
+      @Override
+      public LocalDate deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+        return LocalDate.parse(p.getValueAsString(), DateTimeFormatter.ofPattern(DATE_FORMAT));
+      }
+    };
+  }
 }

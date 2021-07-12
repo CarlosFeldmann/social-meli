@@ -15,34 +15,31 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
-@Tag(name = "Products/Posts Controller", description = "Routes related to creation of posts and fetching")
+@Tag(
+    name = "Products/Posts Controller",
+    description = "Routes related to creation of posts and fetching")
 @Validated
 @RestController
 @RequestMapping("/products")
 public class PostController {
 
-    @Autowired
-    private PostService postService;
+  @Autowired private PostService postService;
 
-    @PostMapping("/newpost")
-    @ResponseStatus(HttpStatus.CREATED)
-    @Operation(
-            summary = "create new post",
-            description = "[US0005] Create a new Post"
-    )
-    public PostDTO post(@RequestBody @Valid CreatePostForm form) {
-        return postService.createPost(form);
-    }
+  @PostMapping("/newpost")
+  @ResponseStatus(HttpStatus.CREATED)
+  @Operation(summary = "create new post", description = "[US0005] Create a new Post")
+  public PostDTO post(@RequestBody @Valid CreatePostForm form) {
+    return postService.createPost(form);
+  }
 
-    @GetMapping("/followed/{userid}/list")
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(
-            summary = "get posts from followed sellers",
-            description = "[US0006,US0009] Get all posts from followed Sellers of a certain user"
-    )
-    public PostsBySellerDTO postsFromSellersByUser(@PathVariable @Min(0) int userid,
-                                                   @RequestParam(name = "order", defaultValue = "date_asc") DateOrderEnum order) {
-        return postService.getPostsFromFollowedSellers(userid, order);
-    }
-
+  @GetMapping("/followed/{userid}/list")
+  @ResponseStatus(HttpStatus.OK)
+  @Operation(
+      summary = "get posts from followed sellers",
+      description = "[US0006,US0009] Get all posts from followed Sellers of a certain user")
+  public PostsBySellerDTO postsFromSellersByUser(
+      @PathVariable @Min(0) int userid,
+      @RequestParam(name = "order", defaultValue = "date_asc") DateOrderEnum order) {
+    return postService.getPostsFromFollowedSellers(userid, order);
+  }
 }

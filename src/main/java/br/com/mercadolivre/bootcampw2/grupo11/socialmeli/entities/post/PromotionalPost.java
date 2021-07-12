@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class PromotionalPost extends Post {
 
-    private Boolean hasPromo;
+  private Boolean hasPromo;
 
-    private BigDecimal discount;
+  private BigDecimal discount;
 }

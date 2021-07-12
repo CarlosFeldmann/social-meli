@@ -7,14 +7,14 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UserDTO{
-    @Schema(example = "1")
-    private int userId;
-    @Schema(example = "Ednaldo")
-    private String userName;
+public class UserDTO {
+  @Schema(example = "1")
+  private int userId;
 
+  @Schema(example = "Ednaldo")
+  private String userName;
 
-    public static UserDTO fromEntity(User user) {
-        return new UserDTO(user.getUserId(), user.getUserName());
-    }
+  public static UserDTO fromEntity(User user) {
+    return new UserDTO(user.getUserId(), user.getUserName());
+  }
 }

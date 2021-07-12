@@ -13,49 +13,39 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
-
 @Tag(name = "User Controller", description = "Routes related to users, creation and fetching")
 @Validated
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    private final UserService userService;
+  private final UserService userService;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+  @Autowired
+  public UserController(UserService userService) {
+    this.userService = userService;
+  }
 
-    @PostMapping("/customer")
-    @ResponseStatus(HttpStatus.CREATED)
-    @Operation(
-            summary = "create a customer",
-            description = "[US0013] Create a new customer user"
-    )
-    public UserInfoDTO createCustomer(@RequestBody @Valid UserForm form) {
-        return userService.createCustomer(form);
-    }
+  @PostMapping("/customer")
+  @ResponseStatus(HttpStatus.CREATED)
+  @Operation(summary = "create a customer", description = "[US0013] Create a new customer user")
+  public UserInfoDTO createCustomer(@RequestBody @Valid UserForm form) {
+    return userService.createCustomer(form);
+  }
 
-    @PostMapping("/seller")
-    @ResponseStatus(HttpStatus.CREATED)
-    @Operation(
-            summary = "create a seller",
-            description = "[US0013] Create a new seller user"
-    )
-    public UserInfoDTO createSeller(@RequestBody @Valid UserForm form) {
-        return userService.createSeller(form);
-    }
+  @PostMapping("/seller")
+  @ResponseStatus(HttpStatus.CREATED)
+  @Operation(summary = "create a seller", description = "[US0013] Create a new seller user")
+  public UserInfoDTO createSeller(@RequestBody @Valid UserForm form) {
+    return userService.createSeller(form);
+  }
 
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(
-            summary = "fetch user",
-            description = "[US0013] Fetch a user by id, works for customers and sellers"
-    )
-    public UserInfoDTO getUserInfo(@PathVariable @Min(0) Integer id) {
-        return userService.getUserInfo(id);
-    }
-
-
+  @GetMapping("/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  @Operation(
+      summary = "fetch user",
+      description = "[US0013] Fetch a user by id, works for customers and sellers")
+  public UserInfoDTO getUserInfo(@PathVariable @Min(0) Integer id) {
+    return userService.getUserInfo(id);
+  }
 }

@@ -16,104 +16,99 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Service with the responsibility of all following actions, and fetching relationships
- */
+/** Service with the responsibility of all following actions, and fetching relationships */
 @Service
 public class FollowService {
 
-    private final SellerRepository sellerRepository;
+  private final SellerRepository sellerRepository;
 
-    private final CustomerRepository customerRepository;
+  private final CustomerRepository customerRepository;
 
-    public FollowService(SellerRepository sellerRepository, CustomerRepository customerRepository) {
-        this.sellerRepository = sellerRepository;
-        this.customerRepository = customerRepository;
-    }
+  public FollowService(SellerRepository sellerRepository, CustomerRepository customerRepository) {
+    this.sellerRepository = sellerRepository;
+    this.customerRepository = customerRepository;
+  }
 
+  /**
+   * This method is used to trigger following sequence for a customer following a seller
+   *
+   * @param customerId - customer ID
+   * @param sellerId - seller ID
+   */
+  public void followSeller(Integer customerId, Integer sellerId) {
+    Customer customer = customerRepository.findByIdOrElseThrow(customerId);
+    Seller seller = sellerRepository.findByIdOrElseThrow(sellerId);
+    if (customer.isFollowing(seller))
+      throw new ApiException(
+          HttpStatus.BAD_REQUEST, "already_follows_error", "User already follows seller");
 
-    /**
-     * This method is used to trigger following sequence for a customer following a seller
-     *
-     * @param customerId - customer ID
-     * @param sellerId   - seller ID
-     */
-    public void followSeller(Integer customerId, Integer sellerId) {
-        Customer customer = customerRepository.findByIdOrElseThrow(customerId);
-        Seller seller = sellerRepository.findByIdOrElseThrow(sellerId);
-        if (customer.isFollowing(seller))
-            throw new ApiException(HttpStatus.BAD_REQUEST, "already_follows_error", "User already follows seller");
+    customer.addFollow(seller);
+    customerRepository.save(customer);
+  }
 
-        customer.addFollow(seller);
-        customerRepository.save(customer);
-    }
+  /**
+   * This method is used to trigger unfollowing sequence for a customer unfollowing a seller
+   *
+   * @param customerId - customer ID
+   * @param sellerId - seller ID
+   */
+  public void unfollowSeller(Integer customerId, Integer sellerId) {
+    Customer customer = customerRepository.findByIdOrElseThrow(customerId);
+    Seller seller = sellerRepository.findByIdOrElseThrow(sellerId);
 
-    /**
-     * This method is used to trigger unfollowing sequence for a customer unfollowing a seller
-     *
-     * @param customerId - customer ID
-     * @param sellerId   - seller ID
-     */
-    public void unfollowSeller(Integer customerId, Integer sellerId) {
-        Customer customer = customerRepository.findByIdOrElseThrow(customerId);
-        Seller seller = sellerRepository.findByIdOrElseThrow(sellerId);
+    if (!customer.isFollowing(seller))
+      throw new ApiException(
+          HttpStatus.BAD_REQUEST, "customer_isnt_following_error", "User already unfollows seller");
 
-        if (!customer.isFollowing(seller))
-            throw new ApiException(HttpStatus.BAD_REQUEST, "customer_isnt_following_error", "User already unfollows seller");
+    customer.removeFollow(seller);
 
-        customer.removeFollow(seller);
+    customerRepository.save(customer);
+  }
 
-        customerRepository.save(customer);
-    }
+  /**
+   * This method is used to list all followers from a given seller with an optional given order
+   *
+   * @param sellerId - seller ID
+   * @param order - order in which the follower list is ordered
+   * @return Object DTO to the end user
+   */
+  public SellerFollowerListDTO getFollowerList(Integer sellerId, ListOrderEnum order) {
+    Seller seller = sellerRepository.findByIdOrElseThrow(sellerId);
 
-    /**
-     * This method is used to list all followers from a given seller with an optional given order
-     *
-     * @param sellerId - seller ID
-     * @param order    - order in which the follower list is ordered
-     * @return Object DTO to the end user
-     */
-    public SellerFollowerListDTO getFollowerList(Integer sellerId, ListOrderEnum order) {
-        Seller seller = sellerRepository.findByIdOrElseThrow(sellerId);
+    List<Customer> followers = customerRepository.getCustomersFollowing(seller, order.getSort());
 
-        List<Customer> followers = customerRepository.getCustomersFollowing(seller, order.getSort());
+    var followListDTO = followers.stream().map(UserDTO::fromEntity).collect(Collectors.toList());
 
-        var followListDTO = followers.stream()
-                .map(UserDTO::fromEntity)
-                .collect(Collectors.toList());
+    return new SellerFollowerListDTO(sellerId, seller.getUserName(), followListDTO);
+  }
 
-        return new SellerFollowerListDTO(sellerId, seller.getUserName(), followListDTO);
-    }
+  /**
+   * This method is used for getting a list of seller that a given customer follows.
+   *
+   * @param customerId - customer ID
+   * @param order - order in which the follower list is ordered
+   * @return The response to the end user.
+   */
+  public UserFollowingListDTO getFollowingList(Integer customerId, ListOrderEnum order) {
+    var customer = customerRepository.findByIdOrElseThrow(customerId);
 
-    /**
-     * This method is used for getting a list of seller that a given customer follows.
-     *
-     * @param customerId - customer ID
-     * @param order      - order in which the follower list is ordered
-     * @return The response to the end user.
-     */
-    public UserFollowingListDTO getFollowingList(Integer customerId, ListOrderEnum order) {
-        var customer = customerRepository.findByIdOrElseThrow(customerId);
+    var followedSellers = sellerRepository.getSellersFollowedBy(customer, order.getSort());
 
-        var followedSellers = sellerRepository.getSellersFollowedBy(customer, order.getSort());
+    var followList = followedSellers.stream().map(UserDTO::fromEntity).collect(Collectors.toList());
 
-        var followList = followedSellers.stream()
-                .map(UserDTO::fromEntity)
-                .collect(Collectors.toList());
+    return new UserFollowingListDTO(customerId, customer.getUserName(), followList);
+  }
 
-        return new UserFollowingListDTO(customerId, customer.getUserName(), followList);
-    }
+  /**
+   * Get the follower count of a given seller
+   *
+   * @param sellerId - ID of the seller
+   * @return Human friendly response
+   */
+  public FollowerCountDTO getSellerFollowCount(Integer sellerId) {
+    Seller seller = sellerRepository.findByIdOrElseThrow(sellerId);
 
-    /**
-     * Get the follower count of a given seller
-     *
-     * @param sellerId - ID of the seller
-     * @return Human friendly response
-     */
-    public FollowerCountDTO getSellerFollowCount(Integer sellerId) {
-        Seller seller = sellerRepository.findByIdOrElseThrow(sellerId);
-
-        long followersCount = sellerRepository.countFollowers(seller);
-        return new FollowerCountDTO(seller.getUserId(), seller.getUserName(), followersCount);
-    }
+    long followersCount = sellerRepository.countFollowers(seller);
+    return new FollowerCountDTO(seller.getUserId(), seller.getUserName(), followersCount);
+  }
 }

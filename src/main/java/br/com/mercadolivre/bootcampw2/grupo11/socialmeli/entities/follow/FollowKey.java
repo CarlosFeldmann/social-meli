@@ -14,10 +14,9 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class FollowKey implements Serializable {
 
-    @Column(name = "user_follower_id")
-    private Integer userFollowerId;
+  @Column(name = "user_follower_id")
+  private Integer userFollowerId;
 
-    @Column (name = "user_followed_id")
-    private Integer userFollowedId;
-
+  @Column(name = "user_followed_id")
+  private Integer userFollowedId;
 }

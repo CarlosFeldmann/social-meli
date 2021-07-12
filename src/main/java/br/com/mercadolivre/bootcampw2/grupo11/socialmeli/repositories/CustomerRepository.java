@@ -12,15 +12,12 @@ import java.util.List;
 @Repository
 public interface CustomerRepository extends BaseRepository<Customer, Integer> {
 
-    @Query("select count(o) from Follow o where o.customer = :customer")
-    long countFollowing(@Param("customer") Customer customer);
+  @Query("select count(o) from Follow o where o.customer = :customer")
+  long countFollowing(@Param("customer") Customer customer);
 
-    @Query("SELECT cs FROM Customer cs " +
-            "JOIN Follow f ON cs = f.customer " +
-            "WHERE f.seller = :seller")
-    List<Customer> getCustomersFollowing(
-            @Param("seller") Seller seller,
-            Sort sort
-    );
-
+  @Query(
+      "SELECT cs FROM Customer cs "
+          + "JOIN Follow f ON cs = f.customer "
+          + "WHERE f.seller = :seller")
+  List<Customer> getCustomersFollowing(@Param("seller") Seller seller, Sort sort);
 }

@@ -9,6 +9,5 @@ import java.util.List;
 @Repository
 public interface PromotionalPostRepository extends BaseRepository<PromotionalPost, Integer> {
 
-
-    List<PromotionalPost> findBySeller(Seller seller);
+  List<PromotionalPost> findBySeller(Seller seller);
 }
