@@ -28,7 +28,6 @@ springdoc:
   packages-to-scan: br.com.mercadolivre.bootcampw2.grupo11.socialmeli.controllers
   show-actuator: true
   swagger-ui:
-    operations-sorter: alpha
     disable-swagger-default-url: true
     path: /swagger-ui.html
 

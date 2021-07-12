@@ -3,9 +3,7 @@ package br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.promotional;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.post.PostDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.post.PromotionalPost;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Getter
 public class PromotionalPostDTO extends PostDTO {
     private boolean hasPromo;
