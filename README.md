@@ -16,6 +16,9 @@ Resolução do desafio proposto pela Digital House. Os requisitos podem ser enco
  # Acesse a pasta do projeto no terminal/IDE de sua preferencia (bash/cmd):
  $ cd social-meli
 
+# Rode a API
+$ mvn spring-boot:run
+
  # O servidor iniciará por padrão na porta:8080 - Acesse: http://localhost:8080/v1/swagger-ui.html
 ```
 
