@@ -8,15 +8,13 @@ import lombok.Setter;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
 public class UserForm {
 
-    @NotNull
-    @NotEmpty
-    @Schema(example = "Ednaldo", description = "Username that will be registered")
-    private String username;
-
+  @NotNull
+  @NotEmpty
+  @Schema(example = "Ednaldo", description = "Username that will be registered")
+  private String username;
 }

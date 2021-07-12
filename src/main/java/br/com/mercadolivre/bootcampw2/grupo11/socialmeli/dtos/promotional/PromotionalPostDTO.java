@@ -6,12 +6,12 @@ import lombok.Getter;
 
 @Getter
 public class PromotionalPostDTO extends PostDTO {
-    private boolean hasPromo;
-    private double discount;
+  private boolean hasPromo;
+  private double discount;
 
-    public PromotionalPostDTO(PromotionalPost post) {
-        super(post);
-        this.hasPromo = post.getHasPromo();
-        this.discount = post.getDiscount().doubleValue();
-    }
+  public PromotionalPostDTO(PromotionalPost post) {
+    super(post);
+    this.hasPromo = post.getHasPromo();
+    this.discount = post.getDiscount().doubleValue();
+  }
 }

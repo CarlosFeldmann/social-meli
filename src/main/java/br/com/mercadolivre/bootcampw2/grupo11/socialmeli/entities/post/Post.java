@@ -11,9 +11,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-/**
- * This entity associates posts to products in a OneToOne relationship
- */
+/** This entity associates posts to products in a OneToOne relationship */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,22 +19,21 @@ import java.time.LocalDate;
 @Table(name = "post")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Post {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "post_id")
+  private Integer id;
 
-    private LocalDate date;
+  private LocalDate date;
 
-    @Fetch(FetchMode.JOIN)
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
-    private Product detail;
+  @Fetch(FetchMode.JOIN)
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @JoinColumn(name = "product_id", referencedColumnName = "product_id")
+  private Product detail;
 
-    private Integer category;
+  private Integer category;
 
-    private BigDecimal price;
+  private BigDecimal price;
 
-    @ManyToOne
-    private Seller seller;
+  @ManyToOne private Seller seller;
 }

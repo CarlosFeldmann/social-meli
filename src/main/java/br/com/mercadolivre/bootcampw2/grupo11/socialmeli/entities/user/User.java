@@ -6,18 +6,16 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-/**
- *  This entity is the basis for creating the user table
- */
+/** This entity is the basis for creating the user table */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @NoArgsConstructor
 @Getter
 @Setter
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer userId;
 
-    private String userName;
+  private String userName;
 }

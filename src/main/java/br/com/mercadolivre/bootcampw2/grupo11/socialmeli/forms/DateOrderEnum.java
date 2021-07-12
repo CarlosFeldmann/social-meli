@@ -8,9 +8,8 @@ import org.springframework.data.domain.Sort;
 @AllArgsConstructor
 @Getter
 public enum DateOrderEnum {
-    date_asc(Sort.sort(Post.class).by(Post::getDate).ascending()),
-    date_desc(Sort.sort(Post.class).by(Post::getDate).descending());
+  date_asc(Sort.sort(Post.class).by(Post::getDate).ascending()),
+  date_desc(Sort.sort(Post.class).by(Post::getDate).descending());
 
-    private Sort sort;
-
+  private Sort sort;
 }

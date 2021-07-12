@@ -7,10 +7,11 @@ import java.util.List;
 
 @Getter
 public class ListPromotionalPostsBySellerDTO extends UserDTO {
-    private List<PromotionalPostDTO> posts;
+  private List<PromotionalPostDTO> posts;
 
-    public ListPromotionalPostsBySellerDTO(int userId, String userName, List<PromotionalPostDTO> posts) {
-        super(userId, userName);
-        this.posts = posts;
-    }
+  public ListPromotionalPostsBySellerDTO(
+      int userId, String userName, List<PromotionalPostDTO> posts) {
+    super(userId, userName);
+    this.posts = posts;
+  }
 }

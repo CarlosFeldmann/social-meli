@@ -12,17 +12,15 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends BaseRepository<Post, Integer> {
-    List<Post> getPostBySeller_userIdAndDateAfter(int userId, LocalDate twoWeeks);
+  List<Post> getPostBySeller_userIdAndDateAfter(int userId, LocalDate twoWeeks);
 
-    @Query("SELECT post FROM Post post " +
-            "INNER JOIN Follow f on post.seller = f.seller " +
-            "LEFT JOIN FETCH post.seller seller " +
-            "LEFT JOIN FETCH post.detail detail " +
-            "WHERE f.customer = :customer " +
-            "  and post.date >= :limitDate")
-    List<Post> getPostsThatACustomerFollows(
-            @Param("customer") Customer customer,
-            @Param("limitDate") LocalDate limitDate,
-            Sort sort
-    );
+  @Query(
+      "SELECT post FROM Post post "
+          + "INNER JOIN Follow f on post.seller = f.seller "
+          + "LEFT JOIN FETCH post.seller seller "
+          + "LEFT JOIN FETCH post.detail detail "
+          + "WHERE f.customer = :customer "
+          + "  and post.date >= :limitDate")
+  List<Post> getPostsThatACustomerFollows(
+      @Param("customer") Customer customer, @Param("limitDate") LocalDate limitDate, Sort sort);
 }

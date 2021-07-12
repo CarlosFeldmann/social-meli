@@ -10,39 +10,35 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-/**
- *  This is a pivot table for followers
- */
+/** This is a pivot table for followers */
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Follow {
-    @EmbeddedId
-    private FollowKey id;
+  @EmbeddedId private FollowKey id;
 
-    @ManyToOne
-    @MapsId("userFollowerId")
-    @JoinColumn(name = "user_follower_id")
-    private Customer customer;
+  @ManyToOne
+  @MapsId("userFollowerId")
+  @JoinColumn(name = "user_follower_id")
+  private Customer customer;
 
-    @ManyToOne
-    @MapsId("userFollowedId")
-    @JoinColumn(name = "user_followed_id")
-    private Seller seller;
+  @ManyToOne
+  @MapsId("userFollowedId")
+  @JoinColumn(name = "user_followed_id")
+  private Seller seller;
 
-    private LocalDate date;
+  private LocalDate date;
 
-    /**
-     *
-     * @param customer - Customer who will perform the following action
-     * @param seller   - seller who will be followed
-     */
-    public Follow(Customer customer, Seller seller) {
-        this.customer = customer;
-        this.seller = seller;
-        this.id = new FollowKey(customer.getUserId(), seller.getUserId());
-        this.date = LocalDate.now();
-    }
+  /**
+   * @param customer - Customer who will perform the following action
+   * @param seller - seller who will be followed
+   */
+  public Follow(Customer customer, Seller seller) {
+    this.customer = customer;
+    this.seller = seller;
+    this.id = new FollowKey(customer.getUserId(), seller.getUserId());
+    this.date = LocalDate.now();
+  }
 }
