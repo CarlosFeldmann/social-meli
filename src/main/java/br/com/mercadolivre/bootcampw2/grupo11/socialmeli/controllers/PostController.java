@@ -24,9 +24,12 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @Operation(description = "Create a new Post", summary = "create new post")
     @PostMapping("/newpost")
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(
+            summary = "create new post",
+            description = "[US0005] Create a new Post"
+    )
     public PostDTO post(@RequestBody @Valid CreatePostForm form) {
         return postService.createPost(form);
     }
@@ -34,8 +37,8 @@ public class PostController {
     @GetMapping("/followed/{userid}/list")
     @ResponseStatus(HttpStatus.OK)
     @Operation(
-            description = "Get all posts from followed Sellers of a certain user",
-            summary = "get posts from followed sellers"
+            summary = "get posts from followed sellers",
+            description = "[US0006,US0009] Get all posts from followed Sellers of a certain user"
     )
     public PostsBySellerDTO postsFromSellersByUser(@PathVariable @Min(0) int userid,
                                                    @RequestParam(name = "order", defaultValue = "date_asc") DateOrderEnum order) {

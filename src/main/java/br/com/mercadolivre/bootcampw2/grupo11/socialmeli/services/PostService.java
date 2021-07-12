@@ -5,11 +5,9 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.post.PostDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.post.PostsBySellerDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.promotional.ListPromotionalPostsBySellerDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.promotional.PromotionalPostDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.Follow;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.post.Post;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.post.Product;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.post.PromotionalPost;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ResourceNotFoundException;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.CreatePostForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.CreatePromocionalPostForm;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.DateOrderEnum;
@@ -17,42 +15,65 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.CustomerRe
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.PostRepository;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.PromotionalPostRepository;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.SellerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Service with the responsibility of creating, fetching and updating posts
+ */
 @Service
 public class PostService {
 
-    @Autowired
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
 
-    @Autowired
-    private SellerRepository sellerRepository;
+    private final SellerRepository sellerRepository;
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
-    @Autowired
-    private PromotionalPostRepository promotionalPostRepository;
+    private final PromotionalPostRepository promotionalPostRepository;
+
+    public PostService(PostRepository postRepository,
+                       SellerRepository sellerRepository,
+                       CustomerRepository customerRepository,
+                       PromotionalPostRepository promotionalPostRepository) {
+        this.postRepository = postRepository;
+        this.sellerRepository = sellerRepository;
+        this.customerRepository = customerRepository;
+        this.promotionalPostRepository = promotionalPostRepository;
+    }
 
 
-    public PostDTO createPost(CreatePostForm postForm) {
-        Post newPost = createPostFromForm(postForm);
-        postRepository.save(newPost);
+    /**
+     * Create a new post
+     *
+     * @param form - user input
+     * @return User friendly response
+     */
+    public PostDTO createPost(CreatePostForm form) {
+        Post newPost = createPostFromForm(form);
         return new PostDTO(newPost);
     }
 
+    /**
+     * Create a new promotional post
+     *
+     * @param form - user input
+     * @return User friendly response
+     */
     public PromotionalPostDTO createPromotionalPost(CreatePromocionalPostForm form) {
         PromotionalPost newPost = createPromotionalPostFromForm(form);
-        postRepository.save(newPost);
         return new PromotionalPostDTO(newPost);
     }
 
+    /**
+     * Get the amount of promotional posts made by a specific seller
+     *
+     * @param sellerId - Seller id
+     * @return User friendly response
+     */
     public PromotionalQuantityBySellerDTO getPromotionalPostsCountBySeller(Integer sellerId) {
         var seller = sellerRepository.findByIdOrElseThrow(sellerId);
 
@@ -60,7 +81,12 @@ public class PostService {
         return new PromotionalQuantityBySellerDTO(seller.getUserId(), seller.getUserName(), promotionalPostCount);
     }
 
-
+    /**
+     * Get all promotional posts made by a specific seller
+     *
+     * @param sellerId - Seller id
+     * @return User friendly response containing all posts
+     */
     public ListPromotionalPostsBySellerDTO getPromotionalPostsBySeller(Integer sellerId) {
         var seller = sellerRepository.findByIdOrElseThrow(sellerId);
         var promotionalPostsDTO = this.promotionalPostRepository.findBySeller(seller).stream()
@@ -71,9 +97,16 @@ public class PostService {
     }
 
 
-    public PostsBySellerDTO getPostsFromFollowedSellers(int idUser, DateOrderEnum orderType) {
+    /**
+     * Get all posts from sellers that a given customer follows
+     *
+     * @param customerId - Id of the customer
+     * @param orderType  - Sorting logic that will be used
+     * @return User friendly response containing all related posts
+     */
+    public PostsBySellerDTO getPostsFromFollowedSellers(Integer customerId, DateOrderEnum orderType) {
 
-        var customer = customerRepository.findByIdOrElseThrow(idUser);
+        var customer = customerRepository.findByIdOrElseThrow(customerId);
 
         LocalDate limitDate = LocalDate.now().minusWeeks(2);
         // Fetch posts from repository, returning sorted and filtering limit date
@@ -83,17 +116,17 @@ public class PostService {
         var postsDTO = postsFromQuery.stream()
                 .map(this::createPostDTOFromPost)
                 .collect(Collectors.toList());
-        return new PostsBySellerDTO(idUser, postsDTO);
-    }
-
-    public Set<Follow> getSellersFollowedByUser(int idUser) {
-        var customer = customerRepository.findById(idUser).orElseThrow(()
-                ->
-                new ResourceNotFoundException("User Id", idUser));
-        return customer.getFollowed();
+        return new PostsBySellerDTO(customerId, postsDTO);
     }
 
 
+    /**
+     * Fill a post entity with all values provided by the user
+     * This function exists so we can use the same logic for a PromotionalPost
+     *
+     * @param post - Post that will be modified
+     * @param form - User input
+     */
     private void fillPostFromForm(Post post, CreatePostForm form) {
         Product newProduct = new Product();
         post.setCategory(form.getCategory());
@@ -107,15 +140,28 @@ public class PostService {
         post.setDetail(newProduct);
     }
 
-    private Post createPostFromForm(CreatePostForm postForm) {
-        var seller = sellerRepository.findByIdOrElseThrow(postForm.getUserId());
+    /**
+     * Create a post entity based on user input
+     *
+     * @param form - User input
+     * @return - Post Entity
+     */
+    private Post createPostFromForm(CreatePostForm form) {
+        var seller = sellerRepository.findByIdOrElseThrow(form.getUserId());
 
         Post newPost = new Post();
-        fillPostFromForm(newPost, postForm);
+        fillPostFromForm(newPost, form);
         newPost.setSeller(seller);
+        postRepository.save(newPost);
         return newPost;
     }
 
+    /**
+     * Create a promotional post entity based on user input
+     *
+     * @param form - User input
+     * @return - Post Entity
+     */
     private PromotionalPost createPromotionalPostFromForm(CreatePromocionalPostForm form) {
         var seller = sellerRepository.findByIdOrElseThrow(form.getUserId());
 
@@ -124,10 +170,20 @@ public class PostService {
         newPost.setSeller(seller);
         newPost.setHasPromo(form.getHasPromo());
         newPost.setDiscount(form.getDiscount());
+        postRepository.save(newPost);
         return newPost;
     }
 
 
+    /**
+     * Convert a post entity to a DTO
+     * This conversion will take in consideration the type of the post
+     * PromotionalPost have a separated DTO
+     *
+     * Use this method when you doesn't know which type of post you have(ex: Listing)
+     * @param post - Entity
+     * @return User friendly response
+     */
     private PostDTO createPostDTOFromPost(Post post) {
         if (post instanceof PromotionalPost) {
             return new PromotionalPostDTO((PromotionalPost) post);

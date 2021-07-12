@@ -10,7 +10,9 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.SellerRepo
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+/**
+ * Service with the responsibility of creating and fetching users
+ */
 @Service
 public class UserService {
 
