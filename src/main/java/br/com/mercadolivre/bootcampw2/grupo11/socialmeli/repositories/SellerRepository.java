@@ -21,8 +21,8 @@ public interface SellerRepository extends BaseRepository<Seller, Integer> {
     long countPromotionalPost(@Param("seller") Seller seller);
 
     @Query("SELECT sl FROM Seller sl " +
-            "JOIN Follow fd ON sl = fd.seller " +
-            "WHERE fd.customer = :customer")
+            "JOIN Follow f ON sl = f.seller " +
+            "WHERE f.customer = :customer")
     List<Seller> getSellersFollowedBy(@Param("customer") Customer customer, Sort sort);
 
 }
