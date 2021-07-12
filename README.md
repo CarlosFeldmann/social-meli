@@ -9,6 +9,8 @@
 Resolução do desafio proposto pela Digital House. Os requisitos podem ser encontrados [**aqui.**](https://docs.google.com/document/d/e/2PACX-1vRODnxUgWId0uaewPRRepfeLNXdi9iMKdE811dw_mwW_yK3k66vED2sam8ZNqB9PQ/pub)  
 
 ## :hammer: Rodando a aplicação
+> É necessário o uso do Java >=11
+
  ```
  # Clone este repositório
  git clone https://github.com/lmarizmeli/social-meli
