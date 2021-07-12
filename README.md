@@ -8,6 +8,17 @@
 ## 💻 Sobre o projeto
 Resolução do desafio proposto pela Digital House. Os requisitos podem ser encontrados [**aqui.**](https://docs.google.com/document/d/e/2PACX-1vRODnxUgWId0uaewPRRepfeLNXdi9iMKdE811dw_mwW_yK3k66vED2sam8ZNqB9PQ/pub)  
 
+## :hammer: Rodando a aplicação
+ ```
+ # Clone este repositório
+ git clone https://github.com/lmarizmeli/social-meli
+
+ # Acesse a pasta do projeto no terminal/IDE de sua preferencia (bash/cmd):
+ $ cd social-meli
+
+ # O servidor iniciará por padrão na porta:8080 - Acesse: http://localhost:8080/v1/swagger-ui.html
+```
+
 ### Arquitetura
 
 #### Organização de arquivos
@@ -39,7 +50,7 @@ Estamos utilizando H2(banco em memória SQL), utilizando JPA para acessar os dad
 - [x] US 0010:  Realizar a publicação de um novo produto promocional
 - [x] US 0011: Obtenha o quantidade de produtos promocionais de um vendedor específico
 - [x] US 0012: Obter uma lista de todos os produtos promocionais de um vendedor específico
-
+- [x] US 0013: Cadastro de novo usuário 🔔 **EXTRA** 🔔
 ## 👥 Diagrama Entidade Relacionamento  
 <img src="https://i.ibb.co/GVrPBx7/image.png" alt="Diagrama" border="0">  
 
