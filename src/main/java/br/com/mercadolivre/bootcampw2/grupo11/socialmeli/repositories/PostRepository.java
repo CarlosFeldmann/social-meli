@@ -15,10 +15,10 @@ public interface PostRepository extends BaseRepository<Post, Integer> {
     List<Post> getPostBySeller_userIdAndDateAfter(int userId, LocalDate twoWeeks);
 
     @Query("SELECT post FROM Post post " +
-            "INNER JOIN Follow fd on post.seller = fd.seller " +
+            "INNER JOIN Follow f on post.seller = f.seller " +
             "LEFT JOIN FETCH post.seller seller " +
             "LEFT JOIN FETCH post.detail detail " +
-            "WHERE fd.customer = :customer " +
+            "WHERE f.customer = :customer " +
             "  and post.date >= :limitDate")
     List<Post> getPostsThatACustomerFollows(
             @Param("customer") Customer customer,
