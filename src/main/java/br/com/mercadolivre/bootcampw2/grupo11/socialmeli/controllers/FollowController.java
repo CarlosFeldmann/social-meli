@@ -27,15 +27,16 @@ public class FollowController {
         this.followService = followService;
     }
 
-    @GetMapping("/{userId}/followed/list")
+    @PostMapping("/{userId}/follow/{userIdToFollow}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(
-            summary = "get following sellers by customer",
-            description = "[US0004] Get customer following list"
+            summary = "follow seller",
+            description = "[US0001] Add seller to customer following list"
     )
-    public UserFollowingListDTO getSellersFollowedByUser(@PathVariable @Min(0) Integer userId) {
-        return followService.getFollowingList(userId);
-
+    public GenericMessageDTO followSeller(@PathVariable @Min(0) Integer userId,
+                                          @PathVariable @Min(0) Integer userIdToFollow) {
+        followService.followSeller(userId, userIdToFollow);
+        return new GenericMessageDTO("Seller followed successfully!");
     }
 
     @GetMapping("/{userId}/followers/count")
@@ -48,15 +49,27 @@ public class FollowController {
         return followService.getSellerFollowCount(userId);
     }
 
-    @PostMapping("/{userId}/follow/{userIdToFollow}")
+    @GetMapping("/{userId}/followers/list")
     @ResponseStatus(HttpStatus.OK)
     @Operation(
-            summary = "follow seller",
-            description = "[US0001] Add seller to customer following list"
+            summary = "customers following seller",
+            description = "[US0003,US0008] List all customers that follow a given seller with a given sort method"
     )
-    public GenericMessageDTO followSeller(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToFollow) {
-        followService.followSeller(userId, userIdToFollow);
-        return new GenericMessageDTO("Seller followed successfully!");
+    public SellerFollowerListDTO listSellerFollowers(@PathVariable @Min(0) Integer userId,
+                                                     @RequestParam(defaultValue = "name_asc") ListOrderEnum order) {
+        return followService.getFollowerList(userId, order);
+    }
+
+    @GetMapping("/{userId}/followed/list")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(
+            summary = "get following sellers by customer",
+            description = "[US0004,US0008] Get customer following list"
+    )
+    public UserFollowingListDTO getSellersFollowedByUser(@PathVariable @Min(0) Integer userId,
+                                                         @RequestParam(defaultValue = "name_asc") ListOrderEnum order) {
+        return followService.getFollowingList(userId, order);
+
     }
 
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
@@ -65,18 +78,11 @@ public class FollowController {
             summary = "unfollow seller",
             description = " [US0007] Unfollows customer to seller, userId refers to customer and userIdToUnfollow refers to seller"
     )
-    public GenericMessageDTO unfollow(@PathVariable @Min(0) Integer userId, @PathVariable @Min(0) Integer userIdToUnfollow) {
+    public GenericMessageDTO unfollow(@PathVariable @Min(0) Integer userId,
+                                      @PathVariable @Min(0) Integer userIdToUnfollow) {
         followService.unfollowSeller(userId, userIdToUnfollow);
         return new GenericMessageDTO("Seller unfollowed successfully!");
     }
 
-    @GetMapping("/{userId}/followers/list")
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(
-            summary = "customers following seller",
-            description = "[US0003] List all customers that follow a given seller with a given sort method"
-    )
-    public SellerFollowerListDTO listSellerFollowers(@PathVariable @Min(0) Integer userId, @RequestParam(defaultValue = "name_asc") ListOrderEnum order) {
-        return followService.getFollowerList(userId, order);
-    }
+
 }

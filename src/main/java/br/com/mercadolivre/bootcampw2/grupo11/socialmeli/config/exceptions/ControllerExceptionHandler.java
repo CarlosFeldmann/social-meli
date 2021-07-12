@@ -53,7 +53,7 @@ public class ControllerExceptionHandler {
     @ApiResponse(
             responseCode = "404",
             description = "Unable to find resource in server",
-            content = @Content(schema = @Schema(implementation = ResourceNotFoundError.class))
+            content = @Content(schema = @Schema(implementation = ResourceNotFoundError.class), mediaType = "application/json")
     )
     public ResponseEntity<ResourceNotFoundError> handleResourceNotFound(ResourceNotFoundException exception) {
         var errorDto = new ResourceNotFoundError(exception);
@@ -71,7 +71,7 @@ public class ControllerExceptionHandler {
     @ApiResponse(
             responseCode = "400",
             description = "Invalid input data.",
-            content = @Content(schema = @Schema(implementation = ValidationError.class))
+            content = @Content(schema = @Schema(implementation = ValidationError.class), mediaType = "application/json")
     )
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -4,44 +4,33 @@ import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.UserDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow.FollowerCountDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow.SellerFollowerListDTO;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.dtos.follow.UserFollowingListDTO;
-import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.follow.Follow;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user.Customer;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.entities.user.Seller;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.exceptions.ApiException;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.forms.ListOrderEnum;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.CustomerRepository;
 import br.com.mercadolivre.bootcampw2.grupo11.socialmeli.repositories.SellerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service with the responsibility of all following actions, and fetching relationships
+ */
 @Service
 public class FollowService {
 
-    @Autowired
-    private SellerRepository sellerRepository;
+    private final SellerRepository sellerRepository;
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
-    /**
-     * This method is used for getting a list of seller that a given customer follows.
-     *
-     * @param customerId - customer ID
-     * @return The response to the end user.
-     */
-    public UserFollowingListDTO getFollowingList(Integer customerId) {
-        var customer = customerRepository.findByIdOrElseThrow(customerId);
-        var followList = customer.getFollowed().stream()
-                .map(Follow::getSeller)
-                .map(UserDTO::fromEntity)
-                .collect(Collectors.toList());
-
-        return new UserFollowingListDTO(customerId, customer.getUserName(), followList);
+    public FollowService(SellerRepository sellerRepository, CustomerRepository customerRepository) {
+        this.sellerRepository = sellerRepository;
+        this.customerRepository = customerRepository;
     }
+
 
     /**
      * This method is used to trigger following sequence for a customer following a seller
@@ -94,6 +83,25 @@ public class FollowService {
                 .collect(Collectors.toList());
 
         return new SellerFollowerListDTO(sellerId, seller.getUserName(), followListDTO);
+    }
+
+    /**
+     * This method is used for getting a list of seller that a given customer follows.
+     *
+     * @param customerId - customer ID
+     * @param order      - order in which the follower list is ordered
+     * @return The response to the end user.
+     */
+    public UserFollowingListDTO getFollowingList(Integer customerId, ListOrderEnum order) {
+        var customer = customerRepository.findByIdOrElseThrow(customerId);
+
+        var followedSellers = sellerRepository.getSellersFollowedBy(customer, order.getSort());
+
+        var followList = followedSellers.stream()
+                .map(UserDTO::fromEntity)
+                .collect(Collectors.toList());
+
+        return new UserFollowingListDTO(customerId, customer.getUserName(), followList);
     }
 
     /**
