@@ -54,8 +54,13 @@ Estamos utilizando H2(banco em memória SQL), utilizando JPA para acessar os dad
 - [x] US 0011: Obtenha o quantidade de produtos promocionais de um vendedor específico
 - [x] US 0012: Obter uma lista de todos os produtos promocionais de um vendedor específico
 - [x] US 0013: Cadastro de novo usuário 🔔 **EXTRA** 🔔
+
+
 ## 👥 Diagrama Entidade Relacionamento  
 <img src="https://i.ibb.co/GVrPBx7/image.png" alt="Diagrama" border="0">  
+
+## 👥 Diagrama de Classe
+<img src="https://i.ibb.co/R31xXZg/Diagrama-De-Classe.png" alt="Diagrama" border="0">  
 
 ## 📃 Documentação
 > Acesse uma cópia estática do nosso Swagger [**aqui**](https://lmarizmeli.github.io/social-meli/index.html)  
